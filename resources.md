@@ -13,8 +13,7 @@ The course is mostly self-contained, but reading a textbook will help you with y
 ### Required:
 
 - [Bayesian Methods for Hackers](https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers) by Cameron Davidson-Pilon. Scroll down to the PyMC3 part in the README.
-
--[Model Based Machine Learning](http://www.mbmlbook.com/index.html)
+- [Model Based Machine Learning](http://www.mbmlbook.com/index.html)
 
 ### Highly Recommended
 
