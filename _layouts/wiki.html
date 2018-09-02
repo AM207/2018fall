@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{page.title}}</title>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [ ['$', '$'] ],
+        displayMath: [ ['$$', '$$']],
+        processEscapes: true,
+        displayAlign: 'center',
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+      "HTML-CSS": {
+          scale: 90},
+    });
+    </script>
+    <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+    <!-- <script type="text/javascript">
+        init_mathjax = function() {
+            if (window.MathJax) {
+                // MathJax loaded
+                MathJax.Hub.Config({
+                    tex2jax: {
+                        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                        displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+                    },
+                    displayAlign: 'center', // Change this to 'center' to center equations.
+                });
+                MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+            } else {
+                console.log("mathjax not loaded")
+            }
+        }
+        init_mathjax();
+        </script> -->
+    <link rel="stylesheet" href="{{site.baseurl}}/css/tufte.css">
+    <link rel="stylesheet" href="{{site.baseurl}}/css/latex.css">
+    <!--link rel="stylesheet" href="{{site.baseurl}}/css/syntax.css"-->
+    <!--link rel="stylesheet" href="{{site.baseurl}}/css/am207.css"-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/x-thebe-config">
+      thebeConfig = {
+        binderOptions: {
+          repo: "AM207/shadowbinder",
+        },
+        kernelOptions: {
+          name: "python3",
+        },
+        requestKernel: true
+      }
+    </script>
+    <script src="{{site.baseurl}}/css/thebe_status_field.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{{site.baseurl}}/css/thebe_status_field.css"/>
+    <script>
+      $(function() {
+          var cellSelector = "pre.highlight code";
+
+          if ($(cellSelector).length > 0) {
+             $(' <span>|</span><span class="thebe_status_field"></span>')
+                .appendTo('article p:first');
+             thebe_place_activate_button();
+          }
+      });
+    </script>
+    <script>window.onload = function() { $("div.language-python pre.highlight code").attr("data-executable", "true")};</script>
+    {% assign page.links = site.data.wikilinks %}
+  </head>
+  <body class="full-width">
+  <header>
+    <nav class="group">
+  	<a href="{{site.baseurl}}/"><img class="badge" src="{{site.baseurl}}/assets/am207-logo.png" alt="CHA"></a>
+    {% if page.shorttitle %}
+    <h1>{{page.title}}</h1>
+    {% endif %}
+  	</nav>
+    {% unless page.noline %}
+    <hr/>
+    {% endunless %}
+  </header>
+  <article>
+        <p>
+        {% if page.keywords %}
+        Keywords:
+            {% for kw in page.keywords %}
+            <a href="../terms.html#{{ kw | slugify }}">{{ kw }}</a>&nbsp;|&nbsp;
+            {% endfor %}
+        {% endif %}
+        {% if page.data %}
+        Data:
+            {% for data in page.data %}
+            <a href="{{ data }}">{{ data | split:'/' | last }}</a>&nbsp;|&nbsp;
+            {% endfor %}
+        {% endif %}
+        {% if page.notebook %}
+        Download <a href="{{page.notebook}}">Notebook</a>
+        {% endif %}
+        </p>
+        {% if page.summary != "" %}
+        <h2>Summary</h2>
+        <p>
+            {{ page.summary }}
+        </p>
+        {% endif %}
+        {{ content }}
+  </article>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  </body>
+</html>
