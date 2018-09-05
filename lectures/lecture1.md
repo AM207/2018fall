@@ -13,6 +13,8 @@ noline: 1
 
 - [Box's Loop](../wiki/boxloop.html)
 - [Probability](../wiki/probability.html)
+- [Distributions](../wiki/distributions.html)
+- [Distributions Example from Polls](../wiki/distrib-example.html)
 
 ## Readings
 
