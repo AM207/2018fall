@@ -32,7 +32,7 @@ Lab is compulsory.
 
 65 points
 
-There will be a homework every week with a maximum of 3 questions. This homework should not take more than 7-8 hours. There will be 11 short format homeworks. These are to be submitted as jupyter notebooks. You can talk with any other student to do your homework, and students are encouraged to collaborate in upto groups of 3 for the homework (this means that while each student must submit their own homework, upto 3 of these homeworks, with students named, can be completely identical).
+There will be a homework every week with a maximum of 3 questions. This homework should not take more than 7-8 hours. There will be 11 short format homeworks. These are to be submitted as jupyter notebooks. You can talk with any other student to do your homework, and students are encouraged to collaborate in upto groups of 3 for the homework (collaborators should submit 1 homework only).
 
 **Paper**
 
@@ -70,13 +70,13 @@ In addition to the scores the Teaching Fellows will give detailed written feedba
 
 **Collaboration Policy**
 
-“You can talk to anyone and collaborate with up-to two additional people on any homework, as long as you write your own homework and mention your collaborators on it.”
+“You can talk to anyone and collaborate with up-to two additional people on any homework"
 
 What does this mean, exactly?
 
 
 - You can talk to anyone as long as you write your own work for anything you plan on submitting
-- You can turn in 3 identical problem sets as long as each of you name both of your collaborators on your homework. Each person MUST turn in their own problem set.
+- You can turn in 1 problem set amongst upto 3 collaborators if you mention ALL names on that homework.
 - Attribution is key!! Anything that you “borrow” from someone/someplace else please make sure to attribute!!!
 
 **Quoting Sources**
@@ -87,7 +87,7 @@ You must acknowledge any source code that was not written by you by mentioning t
 
 **Deadlines and Late Days**
 
-Homework must be turned in on time. You can have upto 7 late days across the semester, with no more than 1 late day on any homework. (That is you could be late by at most 1 day on at most 5 homework submissions). No late days on the final exam.
+Homework must be turned in on time. You can have upto 7 late days across the semester, with no more than 1 late day on any homework. (That is you could be late by at most 1 day on at most 7 homework submissions). No late days on the final exam.
 
 Homework will be due by 10am on the Friday the week after the thursday the homework was released.
 
