@@ -42,3 +42,6 @@ noline: 1
 |      |            |                                                              |                                                              |                                                              |                  |
 | W17  |            |                                                              |                                                              |                                                              |                  |
 
+Notes:
+
+- feel like a lecture is missing earlier at ppc/credible and all problems in one go. but think i can make it work by getting analytic bayesian regression earlier

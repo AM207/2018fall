@@ -14,21 +14,25 @@ Patrick Ohiomoba, Zongren Zou, Srivatsan Srinivasan
 
 ## When?
 
-Still to come
+- Monday 12pm - 1.15pm, Lecture. Compulsory to attend. NW B101.
+
+- Wednesday 12pm - 1.15pm, Lecture. Compulsory to attend. NW B101.
+
+- Fridays 12pm - 1.15pm Lab. Compulsory to attend. Pierce 301.
 
 ## Office Hours
 
 Always in B125, Maxwell Dworkin.
 
 - anytime by appointment with any of us.
+- Rahul Dave, 3-4.15 MW, B-125.
 
-More to come
 
 ## Online?
 
-- web site at https://am207.github.io/2018fall/ (you are reading it)
+- web site at https://am207.info/ (you are reading it)
 - github repo at https://github.com/am207/2018fall (clone this fresh for each class or fork it and set this original up as a remote)
-- discussions at Piazza (still to come)
+- discussions at [Piazza](https://piazza.com/class/jlo4e4ari3r4wd)
 
 ## FAQ
 

@@ -1,0 +1,186 @@
+---
+title: Terms Index
+shorttitle: Terms
+layout: default
+noline: 1
+---
+
+<hr/>
+
+{% comment %}
+=======================
+The following part extracts all the tags from your posts and sort tags, so that you do not need to manually collect your tags to a place.
+from https://codinfox.github.io/dev/2015/03/06/use-tags-and-categories-in-your-jekyll-based-github-pages/
+=======================
+{% endcomment %}
+{% assign rawkw = "" %}
+{% for page in site.pages %}
+	{% assign ttags = page.keywords | join:'|' | append:'|' %}
+	{% assign rawkw = rawkw | append:ttags %}
+{% endfor %}
+{% assign rawkw = rawkw | split:'|' | sort %}
+
+{% comment %}
+=======================
+The following part removes dulpicated tags and invalid tags like blank tag.
+=======================
+{% endcomment %}
+{% assign tags = "" %}
+{% for tag in rawkw %}
+	{% if tag != "" %}
+		{% if tags == "" %}
+			{% assign tags = tag | split:'|' %}
+		{% endif %}
+		{% unless tags contains tag %}
+			{% assign tags = tags | join:'|' | append:'|' | append:tag | split:'|' %}
+		{% endunless %}
+	{% endif %}
+{% endfor %}
+
+{% comment %}
+=======================
+The purpose of this snippet is to list all your posts posted with a certain tag.
+=======================
+{% endcomment %}
+{% for tag in tags %}
+	<h3 id="{{ tag | slugify }}">{{ tag }}</h3>
+	<ul>
+	 {% for page in site.pages %}
+		 {% if page.keywords contains tag %}
+		 <li>{{ page.title }}
+		 <a href="{{site.baseurl}}{{ page.url }}">
+		 [LINK]
+		 </a>
+		 </li>
+		 {% endif %}
+	 {% endfor %}
+	</ul>
+{% endfor %}
+
+<!--
+
+### Bayesian Regression
+
+### Bayesian Statistics
+
+### Bernoulli Distribution
+
+### Binomial Distribution
+
+### Bootstrap
+
+### Box's Loop
+
+### Central Limit Theorem (CLT)
+
+### Conditional Distribution
+
+### Continuous Random Variable
+
+### Cumulative Distribution Function (CDF)
+
+### Differentiation
+
+### Discrete Random Variable
+
+### Distribution
+
+### Dynamical Systems
+
+### Empirical Distribution
+
+### Expectation
+
+### Exponential Distribution
+
+### Frequentist Statistics
+
+### Fundamental Rules of Probability
+
+### Gaussian Processes
+
+### Gaussian/Normal Distribution
+
+### Generalized Linear Models (GLMs)
+
+### Generative Adversarial Net (GAN)
+
+### Generative Models
+
+### Hidden Markov Chain (HMC)
+
+### Hierarchical Model
+
+### Independence
+
+### Independent Identically Distributed (IID)
+
+### Integration
+
+### Intersection
+
+### Latent Variable
+
+### Law of Large Numbers
+
+### Law of the Unconscious Statistician (LOTUS)
+
+### Likelihood
+
+### Linear Regression
+
+### Logistic Regression
+
+### Marginal Distribution
+
+### Maximum Likelihood Estimation (MLE)
+
+### Monte Carlo
+
+### Monte Carlo Markov Chains (MCMC)
+
+### Neural Network (NN)
+
+### Non-Parametric
+
+### Optimization (Stochastic)
+
+### Parametric
+
+### Poison Distribution
+
+### Population
+
+### Posterior
+
+### Posterior Predictive
+
+### Probability
+
+### Probability Density/Mass Function (PDF/PMF)
+
+### Random Variable
+
+### Regularization
+
+### Resampling
+
+### Sample
+
+### Sampling
+
+### Sampling Distribution
+
+### Simulated Annealing
+
+### Stochastic Gradient Descent (SGD)
+
+### Stochastic Processes
+
+### Symmetry
+
+### Uniform Distribution
+
+### Union
+
+-->

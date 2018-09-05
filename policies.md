@@ -32,7 +32,7 @@ Lab is compulsory.
 
 65 points
 
-There will be a homework every week with a maximum of 3 questions. This homework should not take more than 7-8 hours. There will be 11 short format homeworks. These are to be submitted as jupyter notebooks.
+There will be a homework every week with a maximum of 3 questions. This homework should not take more than 7-8 hours. There will be 11 short format homeworks. These are to be submitted as jupyter notebooks. You can talk with any other student to do your homework, and students are encouraged to collaborate in upto groups of 3 for the homework (this means that while each student must submit their own homework, upto 3 of these homeworks, with students named, can be completely identical).
 
 **Paper**
 
@@ -44,7 +44,7 @@ There will be one paper, towards the end of this course. It will require reading
 
 17 points
 
-At the end of the semester there will be a take home exam, which will be about 1.5 long format homework long. You will have >=10 days to finish it. To be submitted as a jupyter notebook.
+At the end of the semester there will be a take home exam, which will be about 1.5 long format homework long. You will have >=10 days to finish it. To be submitted as a jupyter notebook. You will do the exam by yourself!
 
 **Participation**
 
@@ -87,7 +87,7 @@ You must acknowledge any source code that was not written by you by mentioning t
 
 **Deadlines and Late Days**
 
-Homework must be turned in on time. You can have upto 5 late days across the semester, with no more than 1 late day on any homework. (That is you could be late by at most 1 day on at most 5 homework submissions). No late days on the final exam.
+Homework must be turned in on time. You can have upto 7 late days across the semester, with no more than 1 late day on any homework. (That is you could be late by at most 1 day on at most 5 homework submissions). No late days on the final exam.
 
 Homework will be due by 10am on the Friday the week after the thursday the homework was released.
 
