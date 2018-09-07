@@ -24,3 +24,7 @@ noline: 1
 Lecture 1: **Introduction**
 
 [Slides and Notes](lectures/lecture1.html)
+
+Lab 1: **Bayes Theorem and Python Tech**
+
+[Material](lectures/lab1.html)
