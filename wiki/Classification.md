@@ -1,5 +1,7 @@
 ## Classification
 
+The diagrams, and example here are all taken from and adapted from Andrew Glassner's excellent Deep Learning, Volume 1. Its a two volume book, very accessible.
+
 In machine learning, classification is the act of assigning data to one or the other category. Later in this course, we'll see probabilistic algorithms created for this purpose. But currently, let us focus on the "correctness" of these algorithms.
 
 Such correctness is defined with respect to some set where we have the category labels. If we were to hide these labels, and ask our algorithm to predict them, how good would we do? How would we define 'good'?
@@ -70,7 +72,9 @@ One might consider sending all the wrongly predicted positives for an amnio, but
 
 What about negative diagnosis. Does this need a follow up? A negative prediction, the right hand column, has only 1 in 9700 chance of being wrong!
 
-We chose a particular example here to work out, but the logic here is enshrined in Bayes Theorem. There, we are interested in (O being observed and P being predicted)  $P(O+ | P+)$.
+We chose a particular example here to work out, but the logic here is enshrined in Bayes Theorem. There, we are interested in (O being observed and P being predicted) , the quantity:
+
+$$P(O+ | P+).$$
 
 $$P(O+ | P+) P(P+) = P(P+| O+) P(O+)$$
 
@@ -80,4 +84,4 @@ $$P(O+ | P+) = \frac{ P(P+| O+) P(O+)}{P(P+|O+)P(O+) + P(P+|O-)P(O-)}$$
 
 $$ = 0.99 \times 0.01 / (0.99 \times 0.01 + 0.02 \times 0.99) = 0.33$$
 
-Suppose the prior probability was not 1%, but rather $x$, which might be a function of mother's age and other factors (a linear regression, if you like)..and you can see how we can combine disparate pieces of information using Bayes theorem..a classifier (perhaps a logistic regression) based on some test (or just a test) with another model for the prior. Then plot as a function of x what the precision will be. At some point you will need to make the following decision...at what value of x do you order the follow up test...
+Suppose the prior probability was not 1%, but rather $x​$, which might be a function of mother's age and other factors (a linear regression, if you like)..and you can see how we can combine disparate pieces of information using Bayes theorem..a classifier (perhaps a logistic regression) based on some test (or just a test) with another model for the prior. Then plot as a function of x what the precision will be. At some point you will need to make the following decision...at what value of x do you order the follow up test...
