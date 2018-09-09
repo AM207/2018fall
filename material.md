@@ -10,7 +10,7 @@ noline: 1
 
 - [Lectures and Labs](lectures/) (along with readings for these lectures)
 - [Videos] STILL TO COME
-- [Homework](homework/index.html)
+- [Homework](homeworks/index.html)
 - [Topics Index](topics.html)
 - [Terms Glossary](terms.html)
 
