@@ -28,3 +28,11 @@ Lecture 1: **Introduction**
 Lab 1: **Bayes Theorem and Python Tech**
 
 [Material](lectures/lab1.html)
+
+---
+
+### Week 2
+
+Lecture 2: **Probability, Sampling, and the Laws**
+
+[Slides and Notes](lectures/lecture2.html)
