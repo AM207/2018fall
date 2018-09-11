@@ -9,7 +9,7 @@ noline: 1
 ## Indices
 
 - [Lectures and Labs](lectures/) (along with readings for these lectures)
-- [Videos](https://canvas.harvard.edu/courses/52809/pages/helix-anywhere-lecture-video?module_item_id=425815)
+- [Videos](https://matterhorn.dce.harvard.edu/engage/ui/index.html#/2019/01/15810)
 - [Homework](homeworks/index.html)
 - [Topics Index](topics.html)
 - [Terms Glossary](terms.html)
