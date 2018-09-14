@@ -1,6 +1,6 @@
 ---
 shorttitle: "Lab 2"
-title: "Lab2: Frequentism
+title: "Lab2: Frequentism"
 layout: "default"
 noline: 1
 ---

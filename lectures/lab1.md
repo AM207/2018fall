@@ -1,6 +1,6 @@
 ---
 shorttitle: "Lab 1"
-title: "Lab1: Frequentism
+title: "Lab1: Startup"
 layout: "default"
 noline: 1
 ---
