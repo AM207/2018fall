@@ -40,3 +40,7 @@ Lecture 2: **Probability, Sampling, and the Laws**
 Lecture 3: **From Monte Carlo to Frequentism**
 
 [Slides and Notes](lectures/lecture3.html)
+
+Lab2: **Frequentism, Bootstrap, and MLE**
+
+[Material](lectures/lab2.html)
