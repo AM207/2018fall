@@ -52,3 +52,7 @@ Lab2: **Frequentism, Bootstrap, and MLE**
 Lecture 4: **MLE, Sampling, and Learning**
 
 [Slides and Notes](lectures/lecture4.html)
+
+Lecture 5: **Regression, AIC, Info. Theory**
+
+[Slides and Notes](lectures/lecture5.html)
