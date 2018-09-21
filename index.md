@@ -25,9 +25,17 @@ Patrick Ohiomoba, Zongren Zou, Srivatsan Srinivasan
 Always in B125, Maxwell Dworkin.
 
 - anytime by appointment with any of us.
-- Rahul Dave, 3-4.15 MW, B-125.
+- Rahul Dave, 3-4.15 Mon and Wed, B-125.
+
+TF Office Hours:
 
 
+- Tue 2:00 - 3:14 pm Patrick (MD B125) 
+- Tue 7:30 - 8:45 pm Srivatsan (MD IACS Lounge)
+- Fri 2:00 - 3:15 pm Patrick (MD B125)
+- Sat 3:00 - 4:15 pm Zongren (MD IACS Lounge)
+
+ 
 ## Online?
 
 - web site at https://am207.info/ (you are reading it)

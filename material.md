@@ -56,3 +56,7 @@ Lecture 4: **MLE, Sampling, and Learning**
 Lecture 5: **Regression, AIC, Info. Theory**
 
 [Slides and Notes](lectures/lecture5.html)
+
+Lab 3: **Generating regression data, fitting it, training, and testing**
+
+[Material](lectures/lab3.html)
