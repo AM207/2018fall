@@ -32,6 +32,7 @@ TF Office Hours:
 
 - Tue 2:00 - 3:14 pm Patrick (MD B125) 
 - Tue 7:30 - 8:45 pm Srivatsan (MD IACS Lounge)
+- Wed 7:30 - 8:45 pm Srivatsan (MD IACS Lounge)
 - Fri 2:00 - 3:15 pm Patrick (MD B125)
 - Sat 3:00 - 4:15 pm Zongren (MD IACS Lounge)
 
