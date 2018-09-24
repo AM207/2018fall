@@ -60,3 +60,11 @@ Lecture 5: **Regression, AIC, Info. Theory**
 Lab 3: **Generating regression data, fitting it, training, and testing**
 
 [Material](lectures/lab3.html)
+
+---
+
+### Week 4
+
+Lecture 6: **Risk, AIC, Info. Theory**
+
+[Slides and Notes](lectures/lecture6.html)

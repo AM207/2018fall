@@ -12,3 +12,4 @@ layout: "default"
 - [Lecture 4](lecture4.html): MLE, Sampling, and Learning
 - [Lecture 5](lecture5.html): Regression, AIC, Info. Theory
 - [Lab 3](lab3.html): Generating regression data, fitting it, training, and testing
+- [Lecture 6](lecture6.html): Risk and Information
