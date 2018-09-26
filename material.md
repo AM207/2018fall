@@ -68,3 +68,7 @@ Lab 3: **Generating regression data, fitting it, training, and testing**
 Lecture 6: **Risk, AIC, Info. Theory**
 
 [Slides and Notes](lectures/lecture6.html)
+
+Lecture 7: **From Entropy to Bayes**
+
+[Slides and Notes](lectures/lecture7.html)
