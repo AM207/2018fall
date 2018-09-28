@@ -72,3 +72,7 @@ Lecture 6: **Risk, AIC, Info. Theory**
 Lecture 7: **From Entropy to Bayes**
 
 [Slides and Notes](lectures/lecture7.html)
+
+Lab 4: **Bayesian Quantities in the Globe Model**
+
+[Material](lectures/lab4.html)
