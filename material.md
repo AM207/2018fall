@@ -76,3 +76,11 @@ Lecture 7: **From Entropy to Bayes**
 Lab 4: **Bayesian Quantities in the Globe Model**
 
 [Material](lectures/lab4.html)
+
+---
+
+### Week 5
+
+Lecture 8: **Bayes and Sampling"
+
+[Slides and Notes](lectures/lecture8.html)

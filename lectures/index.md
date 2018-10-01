@@ -15,3 +15,4 @@ layout: "default"
 - [Lecture 6](lecture6.html): Risk and Information
 - [Lecture 7](lecture7.html): From Entropy to Bayes
 - [Lab 4](lab4.html): Bayesian Quantities in the Globe Model
+- [Lecture 8](lecture8.html): Bayes and Sampling
