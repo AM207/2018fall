@@ -81,6 +81,11 @@ Lab 4: **Bayesian Quantities in the Globe Model**
 
 ### Week 5
 
-Lecture 8: **Bayes and Sampling"
+Lecture 8: **Bayes and Sampling**
 
 [Slides and Notes](lectures/lecture8.html)
+
+Lecture 9: **Bayes and Sampling**
+
+[Slides and Notes](lectures/lecture9.html)
+
