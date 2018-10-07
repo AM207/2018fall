@@ -17,3 +17,4 @@ layout: "default"
 - [Lab 4](lab4.html): Bayesian Quantities in the Globe Model
 - [Lecture 8](lecture8.html): Bayes and Sampling
 - [Lecture 9](lecture9.html): Bayes and Sampling
+- [Lab 5](lab5.html): Logistic Regression and Sundry Bayesian
