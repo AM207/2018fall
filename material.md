@@ -89,3 +89,6 @@ Lecture 9: **Bayes and Sampling**
 
 [Slides and Notes](lectures/lecture9.html)
 
+Lab 5: **Logistic Regression and Sundry Bayesian**
+
+[Material](lectures/lab5.html)
