@@ -92,3 +92,12 @@ Lecture 9: **Bayes and Sampling**
 Lab 5: **Logistic Regression and Sundry Bayesian**
 
 [Material](lectures/lab5.html)
+
+---
+
+### Week 6
+
+Lecture 10: **Sampling and Gradient Descent**
+
+[Slides and Notes](lectures/lecture10.html)
+

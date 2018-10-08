@@ -18,3 +18,4 @@ layout: "default"
 - [Lecture 8](lecture8.html): Bayes and Sampling
 - [Lecture 9](lecture9.html): Bayes and Sampling
 - [Lab 5](lab5.html): Logistic Regression and Sundry Bayesian
+- [Lecture 10](lecture10.html): Sampling and Gradient Descent
