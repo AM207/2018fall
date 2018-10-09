@@ -13,5 +13,6 @@ noline: 1
 
 - [Inverse Transform for sampling](../wiki/inversetransform.html)
 - [Rejection Sampling](../wiki/rejectionsampling.html)
-
-
+- [Importance Sampling](../wiki/importancesampling.html)
+- [Gradient Descent and SGD](../wiki/gradientdescent.html)
+- [Backpropagation for Logistic Regression](../wiki/LogisticBP.html)
