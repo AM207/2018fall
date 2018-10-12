@@ -19,3 +19,4 @@ layout: "default"
 - [Lecture 9](lecture9.html): Bayes and Sampling
 - [Lab 5](lab5.html): Logistic Regression and Sundry Bayesian
 - [Lecture 10](lecture10.html): Sampling and Gradient Descent
+- [Lab 6](lab6.html): Sampling and PyTorch

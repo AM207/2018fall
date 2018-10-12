@@ -101,3 +101,6 @@ Lecture 10: **Sampling and Gradient Descent**
 
 [Slides and Notes](lectures/lecture10.html)
 
+Lab 6: **Sampling and PyTorch**
+
+[Material](lectures/lab6.html)
