@@ -104,3 +104,12 @@ Lecture 10: **Sampling and Gradient Descent**
 Lab 6: **Sampling and PyTorch**
 
 [Material](lectures/lab6.html)
+
+---
+
+### Week 7
+
+Lecture 11: **Gradient Descent and Neural Networks**
+
+[Slides and Notes](lectures/lecture11.html)
+
