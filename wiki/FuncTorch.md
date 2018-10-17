@@ -55,7 +55,7 @@ plt.plot(xgrid, ygrid, '.')
 
 
 
-    [<matplotlib.lines.Line2D at 0x106156400>]
+    [<matplotlib.lines.Line2D at 0x11247a588>]
 
 
 
@@ -119,14 +119,14 @@ class MLRegP(nn.Module):
 ```
 
 
-## RELU example with 1 additional layer.
+## RELU example 
 
 We choose 1 hidden layer with 40 units. We print out the model to see what we get. The graph is built up by `pytorch` when `forward` is hit for the first time (thats how we can get away putting the nonlinearities there). Then when we backprop the gradients are transferred properly.
 
 
 
 ```python
-model = MLRegP(1, 40, nonlinearity=fn.relu, additional_hidden_wide=1)
+model = MLRegP(1, 80, nonlinearity=fn.relu, additional_hidden_wide=0)
 criterion = nn.MSELoss()
 ```
 
@@ -139,11 +139,10 @@ print(model)
 
 
     MLRegP(
-      (fc_initial): Linear(in_features=1, out_features=40)
+      (fc_initial): Linear(in_features=1, out_features=80)
       (fc_mid): ModuleList(
-        (0): Linear(in_features=40, out_features=40)
       )
-      (fc_final): Linear(in_features=40, out_features=1)
+      (fc_final): Linear(in_features=80, out_features=1)
     )
 
 
@@ -201,7 +200,7 @@ plt.plot(xgrid, finaloutput.data.numpy(), lw=2)
 
 
 
-    [<matplotlib.lines.Line2D at 0x10b1b7f98>]
+    [<matplotlib.lines.Line2D at 0x11e5dc470>]
 
 
 
@@ -213,7 +212,7 @@ We see that RELU does a decent job. Because of the nature of RELU, the resulting
 
 ## tanh nonlinearity
 
-We get somewhat better results with the tanh nonlinearity. Play with the number of hidden layers and number of units per layer to see if you can do better!
+We get somewhat better results with the tanh nonlinearity, if we go with 2 layers. Play with the number of hidden layers and number of units per layer to see if you can do better!
 
 
 
@@ -223,7 +222,7 @@ print(model2)
 criterion = nn.MSELoss()
 dataset = torch.utils.data.TensorDataset(torch.from_numpy(xgrid.reshape(-1,1)), torch.from_numpy(ygrid))
 loader = torch.utils.data.DataLoader(dataset, batch_size=64, shuffle=True)
-lr, epochs, batch_size = 1e-1 , 2000 , 64
+lr, epochs, batch_size = 0.1 , 4000 , 64
 optimizer = torch.optim.SGD(model2.parameters(), lr = lr )
 accum=[]
 for k in range(epochs):
@@ -268,7 +267,7 @@ plt.plot(xgrid, finaloutput.data.numpy(), lw=2)
 
 
 
-    [<matplotlib.lines.Line2D at 0x10b49e828>]
+    [<matplotlib.lines.Line2D at 0x11f636b70>]
 
 
 

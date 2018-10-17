@@ -146,6 +146,8 @@ def run_model(model, epochs):
 ```
 
 
+### input dim 1, 2 hidden layers width 2, linear output
+
 
 
 ```python
@@ -184,7 +186,7 @@ plt.plot([a[0] for a in accum]);
 
 
 
-![png](nnreg_files/nnreg_12_0.png)
+![png](nnreg_files/nnreg_13_0.png)
 
 
 
@@ -204,7 +206,7 @@ plt.xlim(0, 1000)
 
 
 
-![png](nnreg_files/nnreg_13_1.png)
+![png](nnreg_files/nnreg_14_1.png)
 
 
 
@@ -226,7 +228,7 @@ plt.plot(xgrid, finaloutput.data.numpy(), lw=3, color="r")
 
 
 
-![png](nnreg_files/nnreg_14_1.png)
+![png](nnreg_files/nnreg_15_1.png)
 
 
 
@@ -254,8 +256,10 @@ for j in range(io.shape[1]):
 
 
 
-![png](nnreg_files/nnreg_16_0.png)
+![png](nnreg_files/nnreg_17_0.png)
 
+
+### input dim 1, 2 hidden layers width 4, linear output
 
 
 
@@ -268,12 +272,28 @@ accum = run_model(model2, 4000)
 
 
 ```python
+print(model2)
+```
+
+
+    MLRegP(
+      (fc_initial): Linear(in_features=1, out_features=4)
+      (fc_mid): ModuleList(
+        (0): Linear(in_features=4, out_features=4)
+      )
+      (fc_final): Linear(in_features=4, out_features=1)
+    )
+
+
+
+
+```python
 plt.plot([a[0] for a in accum]);
 ```
 
 
 
-![png](nnreg_files/nnreg_18_0.png)
+![png](nnreg_files/nnreg_21_0.png)
 
 
 
@@ -293,7 +313,7 @@ plt.plot(xgrid, finaloutput.data.numpy(), lw=3, color="r")
 
 
 
-![png](nnreg_files/nnreg_19_1.png)
+![png](nnreg_files/nnreg_22_1.png)
 
 
 
@@ -321,8 +341,10 @@ for j in range(io.shape[1]):
 
 
 
-![png](nnreg_files/nnreg_21_0.png)
+![png](nnreg_files/nnreg_24_0.png)
 
+
+### input dim 1, 2 hidden layers width 8, linear output
 
 
 
@@ -334,7 +356,23 @@ plt.plot([a[0] for a in accum]);
 
 
 
-![png](nnreg_files/nnreg_22_0.png)
+![png](nnreg_files/nnreg_26_0.png)
+
+
+
+
+```python
+print(model3)
+```
+
+
+    MLRegP(
+      (fc_initial): Linear(in_features=1, out_features=8)
+      (fc_mid): ModuleList(
+        (0): Linear(in_features=8, out_features=8)
+      )
+      (fc_final): Linear(in_features=8, out_features=1)
+    )
 
 
 
@@ -350,86 +388,6 @@ plt.plot(xgrid, finaloutput.data.numpy(), lw=3, color="r")
 
 
     [<matplotlib.lines.Line2D at 0x1220cc630>]
-
-
-
-
-![png](nnreg_files/nnreg_23_1.png)
-
-
-
-
-```python
-io = mid_output.data.numpy()
-plt.plot(xgrid, ygrid, '.', alpha=0.2)
-for j in range(io.shape[1]):
-    plt.plot(xgrid, io[:, j], lw=2)
-```
-
-
-
-![png](nnreg_files/nnreg_24_0.png)
-
-
-
-
-```python
-model4 = MLRegP(1, 4, nonlinearity=fn.sigmoid, additional_hidden_wide=2)
-accum = run_model(model4, 4000)
-plt.plot([a[0] for a in accum]);
-```
-
-
-
-![png](nnreg_files/nnreg_25_0.png)
-
-
-
-
-```python
-finaloutput, init_output, mid_output = model4.forward(xdata.view(-1,1))
-plt.plot(xgrid, ygrid, '.')
-plt.plot(xgrid, finaloutput.data.numpy(), lw=3, color="r")
-```
-
-
-
-
-
-    [<matplotlib.lines.Line2D at 0x12249c780>]
-
-
-
-
-![png](nnreg_files/nnreg_26_1.png)
-
-
-
-
-```python
-model5 = MLRegP(1, 2, nonlinearity=fn.sigmoid, additional_hidden_wide=2)
-accum = run_model(model5, 4000)
-plt.plot([a[0] for a in accum]);
-```
-
-
-
-![png](nnreg_files/nnreg_27_0.png)
-
-
-
-
-```python
-finaloutput, init_output, mid_output = model5.forward(xdata.view(-1,1))
-plt.plot(xgrid, ygrid, '.')
-plt.plot(xgrid, finaloutput.data.numpy(), lw=3, color="r")
-```
-
-
-
-
-
-    [<matplotlib.lines.Line2D at 0x12349d7b8>]
 
 
 
@@ -451,6 +409,126 @@ for j in range(io.shape[1]):
 ![png](nnreg_files/nnreg_29_0.png)
 
 
+### input dim 1, 3 hidden layers width 4, linear output
+
+
+
+```python
+model4 = MLRegP(1, 4, nonlinearity=fn.sigmoid, additional_hidden_wide=2)
+accum = run_model(model4, 4000)
+plt.plot([a[0] for a in accum]);
+```
+
+
+
+![png](nnreg_files/nnreg_31_0.png)
+
+
+
+
+```python
+print(model4)
+```
+
+
+    MLRegP(
+      (fc_initial): Linear(in_features=1, out_features=4)
+      (fc_mid): ModuleList(
+        (0): Linear(in_features=4, out_features=4)
+        (1): Linear(in_features=4, out_features=4)
+      )
+      (fc_final): Linear(in_features=4, out_features=1)
+    )
+
+
+
+
+```python
+finaloutput, init_output, mid_output = model4.forward(xdata.view(-1,1))
+plt.plot(xgrid, ygrid, '.')
+plt.plot(xgrid, finaloutput.data.numpy(), lw=3, color="r")
+```
+
+
+
+
+
+    [<matplotlib.lines.Line2D at 0x12249c780>]
+
+
+
+
+![png](nnreg_files/nnreg_33_1.png)
+
+
+### input dim 1, 3 hidden layers width 2, linear output
+
+
+
+```python
+model5 = MLRegP(1, 2, nonlinearity=fn.sigmoid, additional_hidden_wide=2)
+accum = run_model(model5, 4000)
+plt.plot([a[0] for a in accum]);
+```
+
+
+
+![png](nnreg_files/nnreg_35_0.png)
+
+
+
+
+```python
+print(model5)
+```
+
+
+    MLRegP(
+      (fc_initial): Linear(in_features=1, out_features=2)
+      (fc_mid): ModuleList(
+        (0): Linear(in_features=2, out_features=2)
+        (1): Linear(in_features=2, out_features=2)
+      )
+      (fc_final): Linear(in_features=2, out_features=1)
+    )
+
+
+
+
+```python
+finaloutput, init_output, mid_output = model5.forward(xdata.view(-1,1))
+plt.plot(xgrid, ygrid, '.')
+plt.plot(xgrid, finaloutput.data.numpy(), lw=3, color="r")
+```
+
+
+
+
+
+    [<matplotlib.lines.Line2D at 0x12349d7b8>]
+
+
+
+
+![png](nnreg_files/nnreg_37_1.png)
+
+
+
+
+```python
+io = mid_output.data.numpy()
+plt.plot(xgrid, ygrid, '.', alpha=0.2)
+for j in range(io.shape[1]):
+    plt.plot(xgrid, io[:, j], lw=2)
+```
+
+
+
+![png](nnreg_files/nnreg_38_0.png)
+
+
+### input dim 1, 1 hidden layers width 2, linear output
+
 
 
 ```python
@@ -461,7 +539,22 @@ plt.plot([a[0] for a in accum]);
 
 
 
-![png](nnreg_files/nnreg_30_0.png)
+![png](nnreg_files/nnreg_40_0.png)
+
+
+
+
+```python
+print(model6)
+```
+
+
+    MLRegP(
+      (fc_initial): Linear(in_features=1, out_features=2)
+      (fc_mid): ModuleList(
+      )
+      (fc_final): Linear(in_features=2, out_features=1)
+    )
 
 
 
@@ -481,7 +574,7 @@ plt.plot(xgrid, finaloutput.data.numpy(), lw=3, color="r")
 
 
 
-![png](nnreg_files/nnreg_31_1.png)
+![png](nnreg_files/nnreg_42_1.png)
 
 
 
@@ -495,8 +588,10 @@ for j in range(io.shape[1]):
 
 
 
-![png](nnreg_files/nnreg_32_0.png)
+![png](nnreg_files/nnreg_43_0.png)
 
+
+### input dim 1, 1 hidden layers width 1, linear output
 
 
 
@@ -508,7 +603,22 @@ plt.plot([a[0] for a in accum]);
 
 
 
-![png](nnreg_files/nnreg_33_0.png)
+![png](nnreg_files/nnreg_45_0.png)
+
+
+
+
+```python
+print(model7)
+```
+
+
+    MLRegP(
+      (fc_initial): Linear(in_features=1, out_features=1)
+      (fc_mid): ModuleList(
+      )
+      (fc_final): Linear(in_features=1, out_features=1)
+    )
 
 
 
@@ -528,7 +638,7 @@ plt.plot(xgrid, finaloutput.data.numpy(), lw=3, color="r")
 
 
 
-![png](nnreg_files/nnreg_34_1.png)
+![png](nnreg_files/nnreg_47_1.png)
 
 
 
@@ -542,5 +652,63 @@ for j in range(io.shape[1]):
 
 
 
-![png](nnreg_files/nnreg_35_0.png)
+![png](nnreg_files/nnreg_48_0.png)
+
+
+### input dim 1, 1 hidden layers width 16, linear output
+
+
+
+```python
+model8 = MLRegP(1, 16, nonlinearity=fn.sigmoid, additional_hidden_wide=0)
+accum = run_model(model8, 4000)
+plt.plot([a[0] for a in accum]);
+```
+
+
+
+![png](nnreg_files/nnreg_50_0.png)
+
+
+
+
+```python
+print(model8)
+```
+
+
+    MLRegP(
+      (fc_initial): Linear(in_features=1, out_features=16)
+      (fc_mid): ModuleList(
+      )
+      (fc_final): Linear(in_features=16, out_features=1)
+    )
+
+
+
+
+```python
+finaloutput, init_output, mid_output = model8.forward(xdata.view(-1,1))
+plt.plot(xgrid, ygrid, '.')
+plt.plot(xgrid, finaloutput.data.numpy(), lw=3, color="r")
+plt.title("input dim 1, 1 hidden layers width 16, linear output");
+```
+
+
+
+![png](nnreg_files/nnreg_52_0.png)
+
+
+
+
+```python
+io = mid_output.data.numpy()
+plt.plot(xgrid, ygrid, '.', alpha=0.2)
+for j in range(io.shape[1]):
+    plt.plot(xgrid, io[:, j], lw=2)
+```
+
+
+
+![png](nnreg_files/nnreg_53_0.png)
 

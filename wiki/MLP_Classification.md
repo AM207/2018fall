@@ -118,7 +118,7 @@ ax.set_ylim(yy.min(), yy.max())
 
 
 
-    (-2.8829483310505788, 3.3370516689494272)
+    (-2.5061432692010377, 3.1138567307989669)
 
 
 
@@ -152,16 +152,18 @@ class MLP(nn.Module):
         self.additional_hidden_wide = additional_hidden_wide
         for i in range(self.additional_hidden_wide):
             self.fc_mid.append(nn.Linear(hidden_dim, hidden_dim))
-        self.fc_final = nn.Linear(hidden_dim, output_dim)
+        if self.additional_hidden_wide != -1:
+            self.fc_final = nn.Linear(hidden_dim, output_dim)
         self.nonlinearity = nonlinearity
 
     def forward(self, x):
         x = self.fc_initial(x)
         x = self.nonlinearity(x)
-        for i in range(self.additional_hidden_wide):
-            x = self.fc_mid[i](x)
-            x = self.nonlinearity(x)
-        x = self.fc_final(x)
+        if self.additional_hidden_wide != -1:
+            for i in range(self.additional_hidden_wide):
+                x = self.fc_mid[i](x)
+                x = self.nonlinearity(x)
+            x = self.fc_final(x)
         return x
 ```
 
@@ -197,7 +199,7 @@ Points to note:
 
 
 ```python
-model2 = MLP(input_dim=2, hidden_dim=2, output_dim=2, nonlinearity=fn.tanh, additional_hidden_wide=1)
+model2 = MLP(input_dim=2, hidden_dim=3, output_dim=2, nonlinearity=fn.tanh, additional_hidden_wide=1)
 print(model2)
 criterion = nn.CrossEntropyLoss(size_average=True)
 dataset = torch.utils.data.TensorDataset(torch.from_numpy(X_train), torch.from_numpy(y_train))
@@ -222,11 +224,11 @@ plt.plot(accum);
 
 
     MLP(
-      (fc_initial): Linear(in_features=2, out_features=2)
+      (fc_initial): Linear(in_features=2, out_features=3)
       (fc_mid): ModuleList(
-        (0): Linear(in_features=2, out_features=2)
+        (0): Linear(in_features=3, out_features=3)
       )
-      (fc_final): Linear(in_features=2, out_features=2)
+      (fc_final): Linear(in_features=3, out_features=2)
     )
 
 
@@ -248,166 +250,166 @@ testoutput
 
 
     Variable containing:
-     1.0888 -2.1906
-     0.9091 -1.3680
-     1.6218 -2.1948
-     1.1399 -2.3016
-     0.2809 -0.6750
-     0.3280 -0.6800
-     1.6061 -2.1782
-    -2.2254  1.9584
-     1.4554 -2.1729
-    -0.0666 -0.2319
-     1.7837 -2.3767
-     1.6754 -2.2548
-     1.5916 -2.1735
-     1.4077 -2.4884
-    -0.5770 -0.1525
-    -2.5835  2.4284
-    -2.4546  2.2597
-     1.3990 -2.1381
-     1.2826 -1.8234
-    -1.5936  1.5934
-    -0.4885 -0.3152
-     0.9466 -1.4072
-     1.4258 -1.9695
-     1.3537 -1.8896
-    -1.7330  1.3134
-    -1.0528  0.4217
-    -2.7330  2.6245
-    -2.0380  1.8422
-    -0.3440  0.1205
-     0.9992 -1.5611
-    -2.6516  2.5177
-     1.4776 -2.2860
-    -1.1429  0.5401
-    -2.1433  1.8531
-     0.9125 -1.8205
-    -2.3922  2.1774
-    -0.1865 -0.0582
-     1.0138 -1.4983
-     0.6772 -1.5580
-     0.2082 -0.5549
-    -1.0911  0.4734
-     0.4373 -1.4409
-    -1.4554  1.0078
-     1.0131 -1.4879
-     1.5560 -2.4526
-    -1.4643  0.9632
-     1.6531 -2.4657
-    -2.2125  1.9458
-     0.0266 -0.3921
-     0.3066 -0.9172
-     0.8946 -2.0540
-    -1.6135  1.1555
-     1.2898 -1.8978
-     1.4937 -2.3436
-    -0.6694  0.3880
-     1.9324 -2.8272
-     1.7704 -2.3621
-    -1.6799  1.5354
-    -2.6629  2.5325
-     1.4632 -2.0116
-    -2.6396  2.5020
-     0.6431 -1.2247
-     0.0425 -0.9813
-     1.3148 -2.4215
-    -1.5769  1.4020
-     1.3001 -1.8268
-    -2.3835  2.1682
-     0.6495 -1.1115
-     0.1257 -1.1056
-     0.5140 -1.1123
-    -2.6177  2.4733
-    -2.1962  1.9228
-     1.6184 -2.1932
-     1.2048 -1.7866
-    -1.3650  0.8326
-    -2.2836  2.0348
-     1.2063 -1.7197
-    -1.6788  1.2537
-    -1.1056  0.5011
-    -3.1457  3.3454
-    -1.0572  0.4265
-     1.4560 -2.0427
-    -2.4383  2.2380
-    -2.6163  2.4715
-    -2.0412  1.8878
-    -0.1216 -0.1927
-     1.4471 -1.9958
-    -0.3093 -0.5423
-    -1.1629  0.5699
-    -2.3112  2.0711
-    -1.2279  1.1772
-    -0.6104 -0.1304
-     1.0999 -1.6006
-    -0.3166  0.1048
-     0.3878 -0.7486
-     0.4704 -1.4723
-    -0.9387  0.3676
-    -1.2556  0.6860
-     0.3199 -0.9532
-     1.2597 -1.7929
-     1.3754 -2.4566
-    -2.4075  2.1976
-    -2.7082  2.7843
-    -1.0876  0.4733
-     0.2338 -0.5501
-    -0.7243  0.5619
-    -2.4890  2.3044
-     0.7791 -1.2165
-     0.4230 -0.9677
-    -1.7477  1.3316
-    -1.5916  1.1271
-     1.3984 -1.9383
-     1.2825 -1.8041
-    -0.1262 -0.7825
-    -2.6084  2.4610
-    -1.3939  1.2871
-     0.8304 -1.7092
-     0.6022 -1.1540
-     0.2422 -1.2522
-    -0.6504  0.4795
-     0.3656 -0.9149
-    -2.4814  2.2945
-    -2.0138  2.0698
-     0.8826 -1.5214
-     0.8444 -1.8043
-    -2.6256  2.4837
-    -0.3022  0.0827
-    -0.6328 -0.1197
-     1.1563 -2.3007
-    -2.2657  2.0113
-     1.7901 -2.7866
-     0.7806 -1.2439
-     1.2393 -1.7619
-    -2.5057  2.3263
-     1.0977 -1.5994
-     0.6465 -1.2483
-    -0.4097 -0.4094
-     1.2039 -1.7483
-    -1.2692  1.0861
-     0.8055 -1.8987
-    -0.2890 -0.5297
-     0.6881 -1.1226
-    -0.8571  0.7612
-    -1.2951  0.7401
-    -1.4802  0.9855
-    -1.0697  0.9834
-    -1.2449  0.6786
-     1.3559 -2.5063
-     0.2652 -0.8792
-    -2.6000  2.4501
-    -2.2563  1.9990
-     1.5835 -2.1525
-     1.6417 -2.2194
-     1.0297 -2.1999
-     0.4252 -1.1855
-    -1.5052  1.0133
-    -1.8554  1.7368
-    -2.4050  2.1942
-     1.5036 -2.6023
-     1.5179 -2.0762
+    -1.3997  1.1056
+     0.4321 -0.1878
+     0.2325 -0.0586
+    -1.4748  1.1468
+     3.1649 -2.2684
+     2.9101 -2.0822
+     1.1887 -0.7474
+     1.4796 -1.0149
+    -3.5469  2.5426
+    -3.7733  2.6948
+    -0.2148  0.2858
+     3.9723 -2.8604
+    -1.9199  1.4439
+     0.3520 -0.1263
+     3.3732 -2.4237
+     2.5095 -1.7848
+     2.8704 -2.0525
+    -1.8319  1.3913
+    -0.0806  0.1818
+    -0.3542  0.3635
+    -0.7936  0.6824
+    -0.0041  0.1306
+     2.1060 -1.4357
+     0.2766 -0.1130
+     0.8709 -0.5103
+    -1.3461  1.0524
+     3.3596 -2.4143
+    -0.7062  0.6287
+     1.5634 -1.0407
+    -0.0492  0.1600
+     0.0524  0.0948
+     1.8808 -1.3182
+    -3.4808  2.4987
+    -1.9241  1.4596
+     2.3021 -1.5925
+    -0.7218  0.6272
+    -3.6070  2.5861
+    -3.5477  2.5420
+    -2.4397  1.7995
+    -1.6359  1.2494
+     0.9166 -0.5441
+    -2.9952  2.1791
+    -0.9801  0.8223
+    -1.1452  0.9344
+     0.1102  0.0475
+    -3.6323  2.6063
+    -2.7851  2.0277
+    -3.1108  2.2546
+    -0.5392  0.5021
+    -0.8784  0.7372
+    -3.9028  2.7874
+     2.6638 -1.8992
+    -3.0897  2.2326
+     2.7642 -1.9722
+    -2.2850  1.6921
+    -1.7232  1.3218
+     4.2042 -3.0399
+     1.5363 -1.0084
+     1.0733 -0.6613
+     4.3506 -3.1474
+    -0.8530  0.7152
+     4.2824 -3.0974
+    -0.0404  0.1513
+     0.1457 -0.0290
+    -0.9239  0.7579
+    -1.3236  1.0476
+    -2.5510  1.8800
+     1.2802 -0.8159
+    -3.4907  2.5036
+    -0.2133  0.2611
+     1.7668 -1.1816
+     3.1958 -2.2577
+    -0.7845  0.6720
+    -2.2681  1.6901
+    -3.7748  2.6956
+     2.9403 -2.0981
+     1.5907 -1.0496
+     1.3040 -0.8349
+     0.1481  0.0123
+     0.8719 -0.5111
+    -0.3822  0.4076
+    -1.1132  0.8936
+     1.1114 -0.6897
+     0.0516  0.0699
+    -1.0205  0.8473
+    -0.9822  0.8226
+    -1.4213  1.1121
+     1.3364 -0.8580
+    -1.7266  1.3185
+     1.8002 -1.2186
+    -1.1045  0.8875
+     0.3044 -0.0899
+    -1.6213  1.2412
+    -0.3257  0.3136
+    -0.6594  0.5660
+    -0.0061  0.1307
+    -0.0723  0.1303
+     2.2622 -1.5531
+     0.6425 -0.3400
+     3.5527 -2.5243
+     1.4703 -0.9585
+     0.4742 -0.2152
+    -3.9635  2.8235
+    -2.0605  1.5491
+    -3.7193  2.6581
+     1.3573 -0.9252
+     2.8911 -2.0675
+    -2.6437  1.9390
+    -0.7654  0.6714
+     1.1626 -0.7502
+     0.3224 -0.1071
+    -2.2417  1.6723
+     0.5332 -0.3175
+     0.6907 -0.3770
+     0.0929  0.0572
+     2.2506 -1.5903
+    -2.1372  1.5943
+     2.4597 -1.7284
+    -0.9419  0.7867
+     1.3708 -0.8835
+     0.4274 -0.1803
+    -1.8787  1.4144
+    -2.8720  2.0867
+    -3.2267  2.3252
+     3.5142 -2.5284
+     0.5442 -0.2674
+    -1.0442  0.8467
+     0.2991 -0.0894
+    -0.5332  0.4947
+    -1.9302  1.4491
+    -0.3737  0.4014
+    -0.2904  0.3255
+    -3.1304  2.2694
+     0.2306 -0.0791
+    -3.0481  2.2154
+     0.7065 -0.4357
+     0.0990  0.0610
+    -1.1890  0.9566
+     0.2239 -0.0386
+     3.4539 -2.4829
+    -0.2503  0.3136
+    -3.7716  2.6952
+    -3.8336  2.7356
+    -0.5169  0.4874
+     3.9846 -2.8736
+    -2.4657  1.8112
+    -1.8777  1.4178
+    -1.7955  1.3672
+    -0.2697  0.3276
+     2.2395 -1.5380
+    -2.7763  2.0324
+     0.3578 -0.1327
+     0.0418  0.0952
+     1.6378 -1.0839
+     1.5454 -1.0322
+    -3.6984  2.6439
+     0.4830 -0.2253
+    -0.1812  0.2496
+     0.9076 -0.5379
+    -3.3711  2.4227
     [torch.FloatTensor of size 160x2]
 
 
@@ -423,13 +425,13 @@ y_pred
 
 
 
-    array([0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0,
-           0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1,
-           0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0,
-           0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1,
-           0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1,
-           1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0,
-           1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0])
+    array([1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0,
+           0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1,
+           1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1,
+           1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0,
+           1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0,
+           0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1,
+           0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1])
 
 
 
@@ -446,8 +448,8 @@ confusion_matrix(y_test, y_pred)
 
 
 
-    array([[75,  5],
-           [11, 69]])
+    array([[66, 16],
+           [ 5, 73]])
 
 
 
@@ -461,7 +463,7 @@ accuracy_score(y_test, y_pred)
 
 
 
-    0.90000000000000002
+    0.86875000000000002
 
 
 
@@ -479,8 +481,9 @@ def make_pred(X_set):
 
 
 ```python
-ax = plt.gca()
-points_plot(ax, X_train, X_test, y_train, y_test, make_pred);
+with sns.plotting_context('poster'):
+    ax = plt.gca()
+    points_plot(ax, X_train, X_test, y_train, y_test, make_pred);
 ```
 
 
@@ -546,6 +549,7 @@ class MLPClassifier:
         
     def plot_boundary(self, X_train, X_test, y_train, y_test):
         points_plot(plt.gca(), X_train, X_test, y_train, y_test, self.predict);
+        plt.text(1, 1, "{}".format(self), fontsize=12)
         plt.show()
         
     def predict(self, X_test):
@@ -560,7 +564,71 @@ Some points about this:
 - we provide the ability to change the fitting parameters
 - by implementing a `__repr__` we let an instance of this class print something useful. Specifically we created a count of the number of parameters so that we can get a comparison of data size to parameter size.
 
-## Testing on a wildly overfit model
+## The simplest model, and a more complex model
+
+
+
+```python
+logistic = MLPClassifier(input_dim=2, hidden_dim=2, output_dim=2, nonlinearity=lambda x: x, additional_hidden_wide=-1)
+logistic.set_fit_params(epochs=1000)
+print(logistic)
+logistic.fit(X_train,y_train)
+```
+
+
+    MLP(
+      (fc_initial): Linear(in_features=2, out_features=2)
+      (fc_mid): ModuleList(
+      )
+    )
+    {'lr': 0.1, 'epochs': 1000, 'batch_size': 64}
+    Num Params: 6
+
+
+
+
+    
+
+
+
+
+```python
+with sns.plotting_context('poster'):
+    logistic.plot_loss()
+```
+
+
+
+![png](MLP_Classification_files/MLP_Classification_29_0.png)
+
+
+
+
+```python
+ypred = logistic.predict(X_test)
+#training and test accuracy
+accuracy_score(y_train, logistic.predict(X_train)), accuracy_score(y_test, ypred)
+```
+
+
+
+
+
+    (0.84583333333333333, 0.80625000000000002)
+
+
+
+
+
+```python
+with sns.plotting_context('poster'):
+    logistic.plot_boundary(X_train, X_test, y_train, y_test)
+```
+
+
+
+![png](MLP_Classification_files/MLP_Classification_31_0.png)
+
 
 
 
@@ -591,12 +659,13 @@ clf.fit(X_train,y_train)
 
 
 ```python
-clf.plot_loss()
+with sns.plotting_context('poster'):
+    clf.plot_loss()
 ```
 
 
 
-![png](MLP_Classification_files/MLP_Classification_29_0.png)
+![png](MLP_Classification_files/MLP_Classification_33_0.png)
 
 
 
@@ -611,19 +680,20 @@ accuracy_score(y_train, clf.predict(X_train)), accuracy_score(y_test, ypred)
 
 
 
-    (0.89166666666666672, 0.88749999999999996)
+    (0.875, 0.875)
 
 
 
 
 
 ```python
-clf.plot_boundary(X_train, X_test, y_train, y_test)
+with sns.plotting_context('poster'):
+    clf.plot_boundary(X_train, X_test, y_train, y_test)
 ```
 
 
 
-![png](MLP_Classification_files/MLP_Classification_31_0.png)
+![png](MLP_Classification_files/MLP_Classification_35_0.png)
 
 
 ## Experimentation Space
@@ -633,8 +703,8 @@ Here is space for you to play. You might want to collect accuracies on the train
 
 
 ```python
-for additional in [1, 2, 3]:
-    for hdim in [2, 10, 20, 100, 1000]:
+for additional in [0, 2, 4]:
+    for hdim in [2, 10, 100, 1000]:
         print('====================')
         print('Additional', additional, "hidden", hdim)
         clf = MLPClassifier(input_dim=2, hidden_dim=hdim, output_dim=2, nonlinearity=fn.tanh, additional_hidden_wide=additional)
@@ -644,8 +714,9 @@ for additional in [1, 2, 3]:
             clf.set_fit_params(epochs=500)
         print(clf)
         clf.fit(X_train,y_train)
-        clf.plot_loss()
-        clf.plot_boundary(X_train, X_test, y_train, y_test)
+        with sns.plotting_context('poster'):
+            clf.plot_loss()
+            clf.plot_boundary(X_train, X_test, y_train, y_test)
         print("Train acc", accuracy_score(y_train, clf.predict(X_train)))
         print("Test acc", accuracy_score(y_test, clf.predict(X_test)))
 
@@ -653,16 +724,15 @@ for additional in [1, 2, 3]:
 
 
     ====================
-    Additional 1 hidden 2
+    Additional 0 hidden 2
     MLP(
       (fc_initial): Linear(in_features=2, out_features=2)
       (fc_mid): ModuleList(
-        (0): Linear(in_features=2, out_features=2)
       )
       (fc_final): Linear(in_features=2, out_features=2)
     )
     {'lr': 0.1, 'epochs': 500, 'batch_size': 64}
-    Num Params: 18
+    Num Params: 12
 
 
 
@@ -671,26 +741,25 @@ for additional in [1, 2, 3]:
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_3.png)
+![png](MLP_Classification_files/MLP_Classification_37_3.png)
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_4.png)
+![png](MLP_Classification_files/MLP_Classification_37_4.png)
 
 
-    Train acc 0.833333333333
-    Test acc 0.85
+    Train acc 0.866666666667
+    Test acc 0.8375
     ====================
-    Additional 1 hidden 10
+    Additional 0 hidden 10
     MLP(
       (fc_initial): Linear(in_features=2, out_features=10)
       (fc_mid): ModuleList(
-        (0): Linear(in_features=10, out_features=10)
       )
       (fc_final): Linear(in_features=10, out_features=2)
     )
     {'lr': 0.1, 'epochs': 500, 'batch_size': 64}
-    Num Params: 162
+    Num Params: 52
 
 
 
@@ -699,54 +768,25 @@ for additional in [1, 2, 3]:
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_8.png)
+![png](MLP_Classification_files/MLP_Classification_37_8.png)
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_9.png)
+![png](MLP_Classification_files/MLP_Classification_37_9.png)
 
 
-    Train acc 0.9
+    Train acc 0.870833333333
     Test acc 0.88125
     ====================
-    Additional 1 hidden 20
-    MLP(
-      (fc_initial): Linear(in_features=2, out_features=20)
-      (fc_mid): ModuleList(
-        (0): Linear(in_features=20, out_features=20)
-      )
-      (fc_final): Linear(in_features=20, out_features=2)
-    )
-    {'lr': 0.1, 'epochs': 500, 'batch_size': 64}
-    Num Params: 522
-
-
-
-
-    
-
-
-
-![png](MLP_Classification_files/MLP_Classification_33_13.png)
-
-
-
-![png](MLP_Classification_files/MLP_Classification_33_14.png)
-
-
-    Train acc 0.883333333333
-    Test acc 0.8875
-    ====================
-    Additional 1 hidden 100
+    Additional 0 hidden 100
     MLP(
       (fc_initial): Linear(in_features=2, out_features=100)
       (fc_mid): ModuleList(
-        (0): Linear(in_features=100, out_features=100)
       )
       (fc_final): Linear(in_features=100, out_features=2)
     )
     {'lr': 0.1, 'epochs': 500, 'batch_size': 64}
-    Num Params: 10602
+    Num Params: 502
 
 
 
@@ -755,26 +795,25 @@ for additional in [1, 2, 3]:
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_18.png)
+![png](MLP_Classification_files/MLP_Classification_37_13.png)
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_19.png)
+![png](MLP_Classification_files/MLP_Classification_37_14.png)
 
 
-    Train acc 0.908333333333
-    Test acc 0.88125
+    Train acc 0.870833333333
+    Test acc 0.8875
     ====================
-    Additional 1 hidden 1000
+    Additional 0 hidden 1000
     MLP(
       (fc_initial): Linear(in_features=2, out_features=1000)
       (fc_mid): ModuleList(
-        (0): Linear(in_features=1000, out_features=1000)
       )
       (fc_final): Linear(in_features=1000, out_features=2)
     )
     {'lr': 0.1, 'epochs': 500, 'batch_size': 64}
-    Num Params: 1006002
+    Num Params: 5002
 
 
 
@@ -783,15 +822,15 @@ for additional in [1, 2, 3]:
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_23.png)
+![png](MLP_Classification_files/MLP_Classification_37_18.png)
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_24.png)
+![png](MLP_Classification_files/MLP_Classification_37_19.png)
 
 
-    Train acc 0.9125
-    Test acc 0.88125
+    Train acc 0.833333333333
+    Test acc 0.8
     ====================
     Additional 2 hidden 2
     MLP(
@@ -812,15 +851,15 @@ for additional in [1, 2, 3]:
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_28.png)
+![png](MLP_Classification_files/MLP_Classification_37_23.png)
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_29.png)
+![png](MLP_Classification_files/MLP_Classification_37_24.png)
 
 
-    Train acc 0.8875
-    Test acc 0.875
+    Train acc 0.875
+    Test acc 0.825
     ====================
     Additional 2 hidden 10
     MLP(
@@ -841,44 +880,15 @@ for additional in [1, 2, 3]:
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_33.png)
+![png](MLP_Classification_files/MLP_Classification_37_28.png)
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_34.png)
+![png](MLP_Classification_files/MLP_Classification_37_29.png)
 
 
-    Train acc 0.9
-    Test acc 0.88125
-    ====================
-    Additional 2 hidden 20
-    MLP(
-      (fc_initial): Linear(in_features=2, out_features=20)
-      (fc_mid): ModuleList(
-        (0): Linear(in_features=20, out_features=20)
-        (1): Linear(in_features=20, out_features=20)
-      )
-      (fc_final): Linear(in_features=20, out_features=2)
-    )
-    {'lr': 0.1, 'epochs': 500, 'batch_size': 64}
-    Num Params: 942
-
-
-
-
-    
-
-
-
-![png](MLP_Classification_files/MLP_Classification_33_38.png)
-
-
-
-![png](MLP_Classification_files/MLP_Classification_33_39.png)
-
-
-    Train acc 0.9
-    Test acc 0.875
+    Train acc 0.8625
+    Test acc 0.90625
     ====================
     Additional 2 hidden 100
     MLP(
@@ -899,15 +909,15 @@ for additional in [1, 2, 3]:
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_43.png)
+![png](MLP_Classification_files/MLP_Classification_37_33.png)
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_44.png)
+![png](MLP_Classification_files/MLP_Classification_37_34.png)
 
 
-    Train acc 0.908333333333
-    Test acc 0.8875
+    Train acc 0.891666666667
+    Test acc 0.85
     ====================
     Additional 2 hidden 1000
     MLP(
@@ -928,28 +938,29 @@ for additional in [1, 2, 3]:
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_48.png)
+![png](MLP_Classification_files/MLP_Classification_37_38.png)
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_49.png)
+![png](MLP_Classification_files/MLP_Classification_37_39.png)
 
 
-    Train acc 0.875
-    Test acc 0.80625
+    Train acc 0.8375
+    Test acc 0.8125
     ====================
-    Additional 3 hidden 2
+    Additional 4 hidden 2
     MLP(
       (fc_initial): Linear(in_features=2, out_features=2)
       (fc_mid): ModuleList(
         (0): Linear(in_features=2, out_features=2)
         (1): Linear(in_features=2, out_features=2)
         (2): Linear(in_features=2, out_features=2)
+        (3): Linear(in_features=2, out_features=2)
       )
       (fc_final): Linear(in_features=2, out_features=2)
     )
     {'lr': 0.1, 'epochs': 500, 'batch_size': 64}
-    Num Params: 30
+    Num Params: 36
 
 
 
@@ -958,28 +969,29 @@ for additional in [1, 2, 3]:
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_53.png)
+![png](MLP_Classification_files/MLP_Classification_37_43.png)
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_54.png)
+![png](MLP_Classification_files/MLP_Classification_37_44.png)
 
 
-    Train acc 0.895833333333
-    Test acc 0.8875
+    Train acc 0.508333333333
+    Test acc 0.4875
     ====================
-    Additional 3 hidden 10
+    Additional 4 hidden 10
     MLP(
       (fc_initial): Linear(in_features=2, out_features=10)
       (fc_mid): ModuleList(
         (0): Linear(in_features=10, out_features=10)
         (1): Linear(in_features=10, out_features=10)
         (2): Linear(in_features=10, out_features=10)
+        (3): Linear(in_features=10, out_features=10)
       )
       (fc_final): Linear(in_features=10, out_features=2)
     )
     {'lr': 0.1, 'epochs': 500, 'batch_size': 64}
-    Num Params: 382
+    Num Params: 492
 
 
 
@@ -988,58 +1000,29 @@ for additional in [1, 2, 3]:
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_58.png)
+![png](MLP_Classification_files/MLP_Classification_37_48.png)
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_59.png)
+![png](MLP_Classification_files/MLP_Classification_37_49.png)
 
 
-    Train acc 0.891666666667
-    Test acc 0.8875
+    Train acc 0.8625
+    Test acc 0.85
     ====================
-    Additional 3 hidden 20
-    MLP(
-      (fc_initial): Linear(in_features=2, out_features=20)
-      (fc_mid): ModuleList(
-        (0): Linear(in_features=20, out_features=20)
-        (1): Linear(in_features=20, out_features=20)
-        (2): Linear(in_features=20, out_features=20)
-      )
-      (fc_final): Linear(in_features=20, out_features=2)
-    )
-    {'lr': 0.1, 'epochs': 500, 'batch_size': 64}
-    Num Params: 1362
-
-
-
-
-    
-
-
-
-![png](MLP_Classification_files/MLP_Classification_33_63.png)
-
-
-
-![png](MLP_Classification_files/MLP_Classification_33_64.png)
-
-
-    Train acc 0.908333333333
-    Test acc 0.86875
-    ====================
-    Additional 3 hidden 100
+    Additional 4 hidden 100
     MLP(
       (fc_initial): Linear(in_features=2, out_features=100)
       (fc_mid): ModuleList(
         (0): Linear(in_features=100, out_features=100)
         (1): Linear(in_features=100, out_features=100)
         (2): Linear(in_features=100, out_features=100)
+        (3): Linear(in_features=100, out_features=100)
       )
       (fc_final): Linear(in_features=100, out_features=2)
     )
     {'lr': 0.1, 'epochs': 1000, 'batch_size': 64}
-    Num Params: 30802
+    Num Params: 40902
 
 
 
@@ -1048,28 +1031,29 @@ for additional in [1, 2, 3]:
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_68.png)
+![png](MLP_Classification_files/MLP_Classification_37_53.png)
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_69.png)
+![png](MLP_Classification_files/MLP_Classification_37_54.png)
 
 
-    Train acc 0.929166666667
-    Test acc 0.88125
+    Train acc 0.916666666667
+    Test acc 0.84375
     ====================
-    Additional 3 hidden 1000
+    Additional 4 hidden 1000
     MLP(
       (fc_initial): Linear(in_features=2, out_features=1000)
       (fc_mid): ModuleList(
         (0): Linear(in_features=1000, out_features=1000)
         (1): Linear(in_features=1000, out_features=1000)
         (2): Linear(in_features=1000, out_features=1000)
+        (3): Linear(in_features=1000, out_features=1000)
       )
       (fc_final): Linear(in_features=1000, out_features=2)
     )
     {'lr': 0.1, 'epochs': 1000, 'batch_size': 64}
-    Num Params: 3008002
+    Num Params: 4009002
 
 
 
@@ -1078,13 +1062,13 @@ for additional in [1, 2, 3]:
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_73.png)
+![png](MLP_Classification_files/MLP_Classification_37_58.png)
 
 
 
-![png](MLP_Classification_files/MLP_Classification_33_74.png)
+![png](MLP_Classification_files/MLP_Classification_37_59.png)
 
 
-    Train acc 0.958333333333
-    Test acc 0.875
+    Train acc 0.866666666667
+    Test acc 0.80625
 
