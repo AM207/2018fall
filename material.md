@@ -113,3 +113,18 @@ Lecture 11: **Gradient Descent and Neural Networks**
 
 [Slides and Notes](lectures/lecture11.html)
 
+Lecture 12: **Non Linear Approximation to Classification**
+
+[Slides and Notes](lectures/lecture12.html)
+
+Lab 7: **PyTorch**
+
+To be linked
+
+---
+
+### Week 8
+
+Lecture 13: **Classification, Mixtures, and EM***
+
+[Slides and Notes](lectures/lecture13.html)
