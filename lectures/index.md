@@ -24,3 +24,4 @@ layout: "default"
 - [Lecture 12](lecture12.html): Non Linear Approximation to Classification
 - [Lab 7] still to come
 - [Lecture 13](lecture13.html): Classification, Mixtures, and EM
+- [Lecture 14](lecture14.html): EM and Hierarchcal models

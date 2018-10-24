@@ -125,6 +125,10 @@ To be linked
 
 ### Week 8
 
-Lecture 13: **Classification, Mixtures, and EM***
+Lecture 13: **Classification, Mixtures, and EM**
 
 [Slides and Notes](lectures/lecture13.html)
+
+Lecture 14: **EM and Hierarchcal models**
+
+[Slides and Notes](lectures/lecture14.html)

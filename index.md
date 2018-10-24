@@ -4,8 +4,6 @@ layout: "default"
 noline: 1
 ---
 
-THIS IS A TEST LINE
-
 ## Who?
 
 **Instructor:** Rahul Dave (IACS, mailto:rahuldave@gmail.com )
