@@ -5,6 +5,7 @@ notebook: emlab.ipynb
 noline: 1
 summary: ""
 keywords: ['maximum likelihood', 'mixture model', 'full-data likelihood', 'x-likelihood', 'latent variables', 'log-likelihood', 'training set', 'normal distribution', 'z-posterior']
+data: ['ncog.txt']
 layout: wiki
 ---
 {% assign links = site.data.wikilinks %}
