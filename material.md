@@ -132,3 +132,7 @@ Lecture 13: **Classification, Mixtures, and EM**
 Lecture 14: **EM and Hierarchcal models**
 
 [Slides and Notes](lectures/lecture14.html)
+
+Lab 8: **EM and Hierarchicals**
+
+[Material](lectures/lab8.html)
