@@ -26,3 +26,4 @@ layout: "default"
 - [Lecture 13](lecture13.html): Classification, Mixtures, and EM
 - [Lecture 14](lecture14.html): EM and Hierarchcal models
 - [Lab 8](lab8.html): EM and Hierarchicals
+- [Lecture 15](lecture15.html): MCMC

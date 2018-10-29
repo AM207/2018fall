@@ -136,3 +136,11 @@ Lecture 14: **EM and Hierarchcal models**
 Lab 8: **EM and Hierarchicals**
 
 [Material](lectures/lab8.html)
+
+---
+
+### Week 9
+
+Lecture 15: **MCMC**
+
+[Slides and Notes](lectures/lecture15.html)
