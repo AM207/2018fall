@@ -144,3 +144,7 @@ Lab 8: **EM and Hierarchicals**
 Lecture 15: **MCMC**
 
 [Slides and Notes](lectures/lecture15.html)
+
+Lecture 16: **MCMC and Gibbs**
+
+[Slides and Notes](lectures/lecture16.html)
