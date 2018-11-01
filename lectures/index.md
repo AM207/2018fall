@@ -28,3 +28,4 @@ layout: "default"
 - [Lab 8](lab8.html): EM and Hierarchicals
 - [Lecture 15](lecture15.html): MCMC
 - [Lecture 16](lecture16.html): MCMC and Gibbs
+- [Lab 9](lab9.html): Sampling and pymc3

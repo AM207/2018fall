@@ -148,3 +148,7 @@ Lecture 15: **MCMC**
 Lecture 16: **MCMC and Gibbs**
 
 [Slides and Notes](lectures/lecture16.html)
+
+Lab9: **Sampling and Pymc3**
+
+[Material](lectures/lab9.html)
