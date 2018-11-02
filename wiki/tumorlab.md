@@ -1,5 +1,5 @@
 ---
-title: Lab7: Tumors in Rats
+title: Tumors in Rats
 shorttitle: tumorlab
 notebook: tumorlab.ipynb
 noline: 1
@@ -12,6 +12,14 @@ layout: wiki
 
 
 
+
+
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/__init__.py:846: MatplotlibDeprecationWarning: 
+    The text.latex.unicode rcparam was deprecated in Matplotlib 2.2 and will be removed in 3.1.
+      "2.2", name=key, obj_type="rcparam", addendum=addendum)
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/__init__.py:855: MatplotlibDeprecationWarning: 
+    examples.directory is deprecated; in the future, examples will be found relative to the 'datapath' directory.
+      "found relative to the 'datapath' directory.".format(key))
 
 
 
@@ -461,7 +469,7 @@ print("sampling took: ", time.clock()-start, " seconds.")
 ```
 
 
-    sampling took:  75.007415  seconds.
+    sampling took:  76.703062  seconds.
 
 
 Check our acceptance ratio, and then remove burnin samples and thin
@@ -476,7 +484,7 @@ accepteds['alpha']/numtraces, accepteds['beta']/numtraces
 
 
 
-    (0.357195, 0.430315)
+    (0.359355, 0.429675)
 
 
 
@@ -514,7 +522,7 @@ plt.ylabel('beta')
 
 
 
-    <matplotlib.text.Text at 0x11740cb00>
+    Text(0, 0.5, 'beta')
 
 
 
@@ -602,7 +610,7 @@ plt.ylabel('p(theta_0 \vert  everything)')
 
 
 
-    <matplotlib.text.Text at 0x117d08da0>
+    Text(0, 0.5, 'p(theta_0 \x0bert  everything)')
 
 
 
@@ -729,7 +737,7 @@ print("Naive rate: ", 4.0/14)
 ```
 
 
-    Percentiles:  [ 0.08584507  0.20284944  0.38120849]
+    Percentiles:  [ 0.08644306  0.2048649   0.38394624]
     Naive rate:  0.2857142857142857
 
 

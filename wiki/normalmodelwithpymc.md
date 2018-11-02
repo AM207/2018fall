@@ -163,7 +163,7 @@ samps, acc = metropolis(logpost, prop, 1, nsamps, x0)
 ```
 
 
-    100%|██████████| 100000/100000 [01:45<00:00, 949.02it/s]
+    100%|██████████| 100000/100000 [01:11<00:00, 1398.69it/s]
 
 
 The acceptance rate is reasonable. You should shoot for somewhere between 20 and 50%.
@@ -178,7 +178,7 @@ acc/nsamps
 
 
 
-    0.46265
+    0.46113
 
 
 
@@ -226,7 +226,7 @@ We'll use this simple example to show how to sample with pymc. To install pymc3,
 
 `conda install -c conda-forge pymc3`.
 
-We want  `pymc 3.3`.
+We want  `pymc 3.5`.
 
 Pymc3 is basically a sampler which uses NUTS for continuous variables and Metropolis for discrete ones, but we can force it to use Metropolis for all, which is what we shall do for now.
 
@@ -243,16 +243,18 @@ import pymc3 as pm
 with pm.Model() as model1:
     mu = pm.Normal('mu', mu=mu_prior, sd=std_prior)#parameter's prior
     wingspan = pm.Normal('wingspan', mu=mu, sd=np.std(Y), observed=Y)#likelihood
-    stepper=pm.Metropolis()
+    stepper=pm.Metropolis(tune_interval=1000)
     tracemodel1=pm.sample(100000, step=stepper)
 ```
 
 
     Multiprocess sampling (2 chains in 2 jobs)
     Metropolis: [mu]
-    100%|██████████| 100500/100500 [00:17<00:00, 5595.30it/s]
+    Sampling 2 chains: 100%|██████████| 201000/201000 [00:31<00:00, 6331.00draws/s]
     The number of effective samples is smaller than 25% for some parameters.
 
+
+See https://docs.pymc.io/api/inference.html#step-methods for details.
 
 Notice that `wingspan`, which is the  data, is defined using the same exact notation as the  prior abovem with the addition of the `observed` argument. This is because Bayesian notation does not distinguish between data d=and parameter nodes..everything is treated equally, and all the action is in taking conditionals and marginals of distributions.
 
@@ -304,7 +306,7 @@ model1.observed_RVs, type(model1.wingspan)
 
 
 
-You can sample from stochastics
+You can sample from stochastics. This is the generative nature of things...
 
 
 
@@ -316,9 +318,9 @@ model1.mu.random(size=10)
 
 
 
-    array([ 17.32474626,  29.50049617,  26.45924045,  12.24361447,
-            26.43876385,  14.00794413,  26.90755711,  13.93294996,
-            21.79692203,   5.10960527])
+    array([ 15.10575416,  15.69449865,   8.66766419,  -2.76534762,
+            23.09144025,  15.95528215,  25.95946207,  18.62187825,
+            18.17252168,  21.78254714])
 
 
 
@@ -353,17 +355,17 @@ pm.summary(tracemodel1[50000::])
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -382,13 +384,13 @@ pm.summary(tracemodel1[50000::])
   <tbody>
     <tr>
       <th>mu</th>
-      <td>18.147083</td>
-      <td>0.44278</td>
-      <td>0.002866</td>
-      <td>17.298008</td>
-      <td>19.039121</td>
-      <td>22355.0</td>
-      <td>0.999995</td>
+      <td>18.151229</td>
+      <td>0.446859</td>
+      <td>0.002779</td>
+      <td>17.274748</td>
+      <td>19.025536</td>
+      <td>22919.881913</td>
+      <td>1.000114</td>
     </tr>
   </tbody>
 </table>
@@ -408,8 +410,8 @@ pm.hpd(tracemodel1[50000::])#pm.hpd(tracemodel1, alpha=0.05)
 
 
 
-    {0: {'mu': array([ 17.28695356,  19.03233939])},
-     1: {'mu': array([ 17.29833448,  19.03235383])}}
+    {0: {'mu': array([ 17.27604773,  19.02833341])},
+     1: {'mu': array([ 17.29493752,  19.04329064])}}
 
 
 
@@ -425,16 +427,16 @@ pm.quantiles(tracemodel1[50000::])
 
 
 
-    {0: {'mu': {2.5: 17.265736808303036,
-       25: 17.848775969286105,
-       50: 18.146892529315949,
-       75: 18.443961797420624,
-       97.5: 19.015918935487345}},
-     1: {'mu': {2.5: 17.277567461536957,
-       25: 17.848590057615525,
-       50: 18.149979736301887,
-       75: 18.442791702077095,
-       97.5: 19.016768181085421}}}
+    {0: {'mu': {2.5: 17.276133967009851,
+       25: 17.849075745284527,
+       50: 18.147255618187032,
+       75: 18.442812277917088,
+       97.5: 19.02940926644655}},
+     1: {'mu': {2.5: 17.281663342099947,
+       25: 17.853027756327361,
+       50: 18.157569938635202,
+       75: 18.460824957207727,
+       97.5: 19.032231709711294}}}
 
 
 
@@ -447,8 +449,13 @@ pm.traceplot(tracemodel1[50000::]);
 ```
 
 
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_base.py:3449: MatplotlibDeprecationWarning: 
+    The `ymin` argument was deprecated in Matplotlib 3.0 and will be removed in 3.2. Use `bottom` instead.
+      alternative='`bottom`', obj_type='argument')
 
-![png](normalmodelwithpymc_files/normalmodelwithpymc_41_0.png)
+
+
+![png](normalmodelwithpymc_files/normalmodelwithpymc_42_1.png)
 
 
 Autocorrelation is easily accessible as well.
@@ -461,7 +468,7 @@ pm.autocorrplot(tracemodel1[50000::]);
 
 
 
-![png](normalmodelwithpymc_files/normalmodelwithpymc_43_0.png)
+![png](normalmodelwithpymc_files/normalmodelwithpymc_44_0.png)
 
 
 Here we plot the results of our sampling against our manual sampler and see that all three match well.
@@ -475,7 +482,7 @@ sns.kdeplot(tracemodel1[50000::]['mu']);
 
 
 
-![png](normalmodelwithpymc_files/normalmodelwithpymc_45_0.png)
+![png](normalmodelwithpymc_files/normalmodelwithpymc_46_0.png)
 
 
 The **posterior predictive** is accessed via the `sample_ppc` function, which takes the trace, the number of samples wanted, and the model as arguments. The sampler will use the posterior traces and the defined likelihood to return samples from the posterior predictive.
@@ -484,14 +491,28 @@ The **posterior predictive** is accessed via the `sample_ppc` function, which ta
 
 ```python
 tr1 = tracemodel1[50000::]
-postpred = pm.sample_ppc(tr1, 1000, model1)
+postpred = pm.sample_ppc(tr1, samples=1000, model=model1)
 ```
 
 
-    100%|██████████| 1000/1000 [00:00<00:00, 3755.56it/s]
+    100%|██████████| 1000/1000 [00:00<00:00, 2700.48it/s]
 
 
-The posterior predictive will return samples for all data in the model's  `observed_RVs`.
+
+
+```python
+postpred['wingspan'].shape
+```
+
+
+
+
+
+    (1000, 9)
+
+
+
+The posterior predictive will return samples for all data in the model's  `observed_RVs`. Its shape is by default the trace size times the data size in pymc3.5 (3.4 would give you a posterior-predictive the size of the posterior, our usual notion. 3.5 gives you the entire replicative posterior predictive. Also, 3.5 docs claim the API is sample_posterior_predictive, but this change has not yet been made, its still sample_ppc)
 
 
 
@@ -507,20 +528,36 @@ model1.observed_RVs
 
 
 
+To pull out just one posterior-predictive replicate:
+
 
 
 ```python
-postpred['wingspan'][:10]
+ppc = postpred['wingspan'][:,0]
 ```
 
 
 
 
+```python
+sns.distplot(ppc)
+```
 
-    array([ 18.82984231,  17.78409678,  18.98763532,  17.70567857,
-            20.01378735,  19.41124152,  17.40958767,  19.24012935,
-            19.65615391,  19.56344576])
 
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_axes.py:6499: MatplotlibDeprecationWarning: 
+    The 'normed' kwarg was deprecated in Matplotlib 2.1 and will be removed in 3.1. Use 'density' instead.
+      alternative="'density'", removal="3.1")
+
+
+
+
+
+    <matplotlib.axes._subplots.AxesSubplot at 0x11c4f38d0>
+
+
+
+
+![png](normalmodelwithpymc_files/normalmodelwithpymc_54_2.png)
 
 
 We plot the posterior predictive against the posterior to see how it is spread out! When we compare the posterior predictive to the posterior (unlike in the beta-binomial distribution where one is a rate and one is a count, here both are on the same scale), we find that the posterior predictive is smeared out due to the additional uncertainty from the sampling distribution.
@@ -528,13 +565,18 @@ We plot the posterior predictive against the posterior to see how it is spread o
 
 
 ```python
-plt.hist(postpred['wingspan'], alpha=0.2, normed=True)
+plt.hist(ppc, alpha=0.2, normed=True)
 sns.kdeplot(tr1['mu']);
 ```
 
 
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_axes.py:6499: MatplotlibDeprecationWarning: 
+    The 'normed' kwarg was deprecated in Matplotlib 2.1 and will be removed in 3.1. Use 'density' instead.
+      alternative="'density'", removal="3.1")
 
-![png](normalmodelwithpymc_files/normalmodelwithpymc_52_0.png)
+
+
+![png](normalmodelwithpymc_files/normalmodelwithpymc_56_1.png)
 
 
 ## Letting $\sigma$ be a stochastic
@@ -554,9 +596,9 @@ with pm.Model() as model12:
 
     Multiprocess sampling (2 chains in 2 jobs)
     CompoundStep
-    >Metropolis: [sigma_interval__]
+    >Metropolis: [sigma]
     >Metropolis: [mu]
-    100%|██████████| 100500/100500 [00:59<00:00, 1683.49it/s]
+    Sampling 2 chains: 100%|██████████| 201000/201000 [00:54<00:00, 3670.03draws/s]
     The number of effective samples is smaller than 25% for some parameters.
 
 
@@ -579,18 +621,23 @@ pm.traceplot(tracemodel2[50000::])
 ```
 
 
-
-
-
-    array([[<matplotlib.axes._subplots.AxesSubplot object at 0x110ee7320>,
-            <matplotlib.axes._subplots.AxesSubplot object at 0x1112cdf60>],
-           [<matplotlib.axes._subplots.AxesSubplot object at 0x110eed5f8>,
-            <matplotlib.axes._subplots.AxesSubplot object at 0x11137ac88>]], dtype=object)
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_base.py:3449: MatplotlibDeprecationWarning: 
+    The `ymin` argument was deprecated in Matplotlib 3.0 and will be removed in 3.2. Use `bottom` instead.
+      alternative='`bottom`', obj_type='argument')
 
 
 
 
-![png](normalmodelwithpymc_files/normalmodelwithpymc_56_1.png)
+
+    array([[<matplotlib.axes._subplots.AxesSubplot object at 0x11c94b470>,
+            <matplotlib.axes._subplots.AxesSubplot object at 0x11ca0f7b8>],
+           [<matplotlib.axes._subplots.AxesSubplot object at 0x11a01e630>,
+            <matplotlib.axes._subplots.AxesSubplot object at 0x11ba837f0>]], dtype=object)
+
+
+
+
+![png](normalmodelwithpymc_files/normalmodelwithpymc_60_2.png)
 
 
 
@@ -604,17 +651,17 @@ pm.summary(tracemodel2[50000::])
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -633,23 +680,23 @@ pm.summary(tracemodel2[50000::])
   <tbody>
     <tr>
       <th>mu</th>
-      <td>18.150133</td>
-      <td>0.592374</td>
-      <td>0.003492</td>
-      <td>16.931460</td>
-      <td>19.305538</td>
-      <td>20373.0</td>
-      <td>1.000159</td>
+      <td>18.154848</td>
+      <td>0.589018</td>
+      <td>0.004090</td>
+      <td>16.989912</td>
+      <td>19.335054</td>
+      <td>18793.491469</td>
+      <td>1.000067</td>
     </tr>
     <tr>
       <th>sigma</th>
-      <td>1.700801</td>
-      <td>0.548500</td>
-      <td>0.004664</td>
-      <td>0.897263</td>
-      <td>2.774750</td>
-      <td>13294.0</td>
-      <td>1.000132</td>
+      <td>1.699411</td>
+      <td>0.551487</td>
+      <td>0.005101</td>
+      <td>0.880793</td>
+      <td>2.770134</td>
+      <td>13161.058623</td>
+      <td>1.000001</td>
     </tr>
   </tbody>
 </table>
@@ -695,6 +742,6 @@ model12.sigma_interval__.logp(dict(mu=20, sigma_interval__=1))
 
 
 
-    array(-1.626523343061009)
+    array(-1.6265233750364456)
 
 

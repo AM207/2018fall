@@ -115,7 +115,7 @@ burnin
 
 ```python
 # plot our sample histogram
-plt.hist(samps[burnin:],bins=100, alpha=0.4, label=u'MCMC distribution', normed=True) 
+plt.hist(samps[burnin:],bins=100, alpha=0.4, label=u'MCMC distribution', density=True) 
 #plot the true function
 xx= np.linspace(0,1,100)
 plt.plot(xx, f(xx), 'r', label=u'True distribution') 
@@ -130,7 +130,7 @@ print("starting point was ", x0, "accepted", acc/nsamps)
 ![png](convergenceandcoverage_files/convergenceandcoverage_13_0.png)
 
 
-    starting point was  0.1826859793404514 accepted 0.43322
+    starting point was  0.3921063843029178 accepted 0.43437
 
 
 The last many samples look  very white-noise-y, which is good
@@ -159,7 +159,9 @@ plt.plot(samps[:3000], alpha=0.3);
 ![png](convergenceandcoverage_files/convergenceandcoverage_17_0.png)
 
 
-You will still see some small scale correlations. Thinning will  eliminate these.
+You will still see some small scale correlations. Thinning will  eliminate these. But thinning is NOT needed, it just makes things look better.
+
+The idea behinf still doing thinning is a diagnostic though. If thinning does not remove autocorrelation, the autocorrelation is not due to the Markovian nature of things.
 
 
 
@@ -228,7 +230,7 @@ corrplot(sampsthin)
 
 ```python
 # plot our sample histogram
-plt.hist(sampsthin,bins=100, alpha=0.4, label=u'MCMC distribution', normed=True) 
+plt.hist(sampsthin,bins=100, alpha=0.4, label=u'MCMC distribution', density=True) 
 sns.kdeplot(sampsthin)
 #plot the true function
 xx= np.linspace(0,1,100)
@@ -244,14 +246,14 @@ print("starting point was ", x0, "accepted", acc/nsamps)
 ![png](convergenceandcoverage_files/convergenceandcoverage_27_0.png)
 
 
-    starting point was  0.1826859793404514 accepted 0.43322
+    starting point was  0.3921063843029178 accepted 0.43437
 
 
 ![](images/robotgoodmixing.png)
 
 ### Large Step Size
 
-$\sigma$ controls the step size of our proposal. A large sigma corresponds to faster coverage, but we are going to miss out details. Because we propose a lot of moves that change probability a lot, we are going to have many rejections.
+$\sigma$ controls the step size of our proposal. A large sigma corresponds to faster coverage, but we are going to miss out details. Because we propose a lot of moves that change probability a lot, we are going to have many "rejections".
 
 
 
@@ -264,7 +266,7 @@ acc2/nsamps
 
 
 
-    0.03009
+    0.02962
 
 
 
@@ -283,11 +285,16 @@ print("starting point was ", x0, "accepted", acc2/nsamps)
 ```
 
 
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_axes.py:6499: MatplotlibDeprecationWarning: 
+    The 'normed' kwarg was deprecated in Matplotlib 2.1 and will be removed in 3.1. Use 'density' instead.
+      alternative="'density'", removal="3.1")
 
-![png](convergenceandcoverage_files/convergenceandcoverage_31_0.png)
 
 
-    starting point was  0.1826859793404514 accepted 0.03009
+![png](convergenceandcoverage_files/convergenceandcoverage_31_1.png)
+
+
+    starting point was  0.3921063843029178 accepted 0.02962
 
 
 ![](images/largestep.png)
@@ -329,7 +336,7 @@ corrplot(samps2[burnin:], 100)
 
 ### Small step size
 
-A small $\sigma$ corresponds to a smaller step size, and thus  our sampler takes longer. But because we make only small changes in probability, our acceptance ration will be high!
+A small $\sigma$ corresponds to a smaller step size, and thus  our sampler takes longer. But because we make only small changes in probability, our acceptance ratio will be high!
 
 
 
@@ -342,7 +349,7 @@ acc3/nsamps
 
 
 
-    0.98637
+    0.98727
 
 
 
@@ -361,11 +368,16 @@ print("starting point was ", x0, "accepted", acc3/nsamps)
 ```
 
 
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_axes.py:6499: MatplotlibDeprecationWarning: 
+    The 'normed' kwarg was deprecated in Matplotlib 2.1 and will be removed in 3.1. Use 'density' instead.
+      alternative="'density'", removal="3.1")
 
-![png](convergenceandcoverage_files/convergenceandcoverage_39_0.png)
 
 
-    starting point was  0.1826859793404514 accepted 0.98637
+![png](convergenceandcoverage_files/convergenceandcoverage_39_1.png)
+
+
+    starting point was  0.3921063843029178 accepted 0.98727
 
 
 ![](images/smallstep.png)
@@ -405,7 +417,7 @@ corrplot(samps3[burnin:], 100)
 ![png](convergenceandcoverage_files/convergenceandcoverage_44_0.png)
 
 
-** A good rule of thumb is to shoot for about a 30% acceptance rate**
+** A good rule of thumb is to shoot for about a 20%- 50% acceptance rate**
 
 ## Mixing and Convergence
 
@@ -431,4 +443,4 @@ Some possibly useful visualizations:
 
 ### Autocorrelation
 
-Autocorrelation can be a good diagnostic. After the burnin, the autocorrelation should decay within a few lags if we have reached ergodicity. There will likely still be some autocorrelation left. MCMC samples are samples from $p(x)$ and are guaranteed to be **act as IID**  due to the "ergodic" law of large numbers: time averages can be used as sample averages. But nearby samples are not *IID*, and you can help them along by shuffling the samples, or thinning so the the autocorrelation becomes minimal.
+Autocorrelation can be a good diagnostic. After the burnin, the autocorrelation should decay within a few lags if we have reached ergodicity. There will likely still be some autocorrelation left. MCMC samples are samples from $p(x)$ and are guaranteed to be **act as IID**  due to the "ergodic" law of large numbers: time averages can be used as sample averages. But nearby samples are not *IID*, and you can help them along by shuffling the samples, and use thinning as a diagnostic to see if the autocorrelation becomes minimal. If it does, good, and you can use all your samples, but if not, you have probably not mixed well yet.
