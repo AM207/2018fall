@@ -152,3 +152,11 @@ Lecture 16: **MCMC and Gibbs**
 Lab9: **Sampling and Pymc3**
 
 [Material](lectures/lab9.html)
+
+---
+
+### Week10 
+
+Lecture 17: **Gibbs, Augmentation, and HMC**
+
+[Slides and Notes](lectures/lecture17.html)
