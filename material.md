@@ -160,3 +160,7 @@ Lab9: **Sampling and Pymc3**
 Lecture 17: **Gibbs, Augmentation, and HMC**
 
 [Slides and Notes](lectures/lecture17.html)
+
+Lecture 18: **HMC, and Formal tests**
+
+[Slides and Notes](lectures/lecture18.html)
