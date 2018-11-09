@@ -469,7 +469,7 @@ print("sampling took: ", time.clock()-start, " seconds.")
 ```
 
 
-    sampling took:  76.703062  seconds.
+    sampling took:  78.917338  seconds.
 
 
 Check our acceptance ratio, and then remove burnin samples and thin
@@ -484,7 +484,7 @@ accepteds['alpha']/numtraces, accepteds['beta']/numtraces
 
 
 
-    (0.359355, 0.429675)
+    (0.367055, 0.43298)
 
 
 
@@ -618,6 +618,20 @@ plt.ylabel('p(theta_0 \vert  everything)')
 ![png](tumorlab_files/tumorlab_39_1.png)
 
 
+
+
+```python
+np.mean(alphatrace), np.mean(betatrace)
+```
+
+
+
+
+
+    (2.4212998537755248, 14.637252408675684)
+
+
+
 ### Understanding the posterior
 
 We plot the observed tumor rates on the x-axis against posterior medians for each of the 70 $\theta$'s on the y axis, along with error bars obtained from finding the 2.5 and 97.5 percentiles. 
@@ -667,7 +681,7 @@ plt.xlim(-0.1,0.5)
 
 
 
-![png](tumorlab_files/tumorlab_45_1.png)
+![png](tumorlab_files/tumorlab_46_1.png)
 
 
 ## The predictives
@@ -687,7 +701,7 @@ plt.axvline(tumory[60],0,1,color='r');
 
 
 
-![png](tumorlab_files/tumorlab_47_0.png)
+![png](tumorlab_files/tumorlab_48_0.png)
 
 
 ### The 71st experiment
@@ -723,7 +737,7 @@ plt.ylabel('p(theta_71 \vert  everything)');
 
 
 
-![png](tumorlab_files/tumorlab_50_0.png)
+![png](tumorlab_files/tumorlab_51_0.png)
 
 
 
@@ -737,7 +751,7 @@ print("Naive rate: ", 4.0/14)
 ```
 
 
-    Percentiles:  [ 0.08644306  0.2048649   0.38394624]
+    Percentiles:  [ 0.08352758  0.19952179  0.3729552 ]
     Naive rate:  0.2857142857142857
 
 

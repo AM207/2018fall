@@ -31,3 +31,4 @@ layout: "default"
 - [Lab 9](lab9.html): Sampling and pymc3
 - [Lecture 17](lecture17.html): Data Augmentation, Gibbs, and HMC
 - [Lecture 18](lecture18.html): HMC, and Formal tests
+- [Lab 10](lab10.html): Jacobians and Tumors

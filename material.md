@@ -164,3 +164,7 @@ Lecture 17: **Gibbs, Augmentation, and HMC**
 Lecture 18: **HMC, and Formal tests**
 
 [Slides and Notes](lectures/lecture18.html)
+
+Lab10: **Jacobians and Tumors**
+
+[Material](lectures/lab10.html)
