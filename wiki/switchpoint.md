@@ -10,11 +10,6 @@ layout: wiki
 {% assign links = site.data.wikilinks %}
 
 
-## Contents
-{:.no_toc}
-* 
-{: toc}
-
 
 
 
@@ -33,8 +28,6 @@ import seaborn as sns
 sns.set_style("whitegrid")
 sns.set_context("poster")
 ```
-
-
 
 
 ## A switchpoint model
@@ -66,7 +59,7 @@ plt.xlim(1851, 1962);
 
 
 
-![png](switchpoint_files/switchpoint_5_0.png)
+![png](switchpoint_files/switchpoint_4_0.png)
 
 
 One can see the swtich roughly in the picture above.
@@ -100,6 +93,20 @@ with pm.Model() as coaldis1:
 ```
 
 
+
+
+```python
+pm.model_to_graphviz(coaldis1)
+```
+
+
+
+
+
+![svg](switchpoint_files/switchpoint_9_0.svg)
+
+
+
 Let us interrogate our model about the various parts of it. Notice that our stochastics are logs of the rate params and the switchpoint, while our deterministics are the rate parameters themselves.
 
 
@@ -112,14 +119,14 @@ coaldis1.vars #stochastics
 
 
 
-    [early_mean_log_, late_mean_log_, switchpoint]
+    [early_mean_log__, late_mean_log__, switchpoint]
 
 
 
 
 
 ```python
-type(coaldis1['early_mean_log_'])
+type(coaldis1['early_mean_log__'])
 ```
 
 
@@ -157,8 +164,10 @@ coaldis1.named_vars
 
 
     {'disasters': disasters,
-     'early_mean_log_': early_mean_log_,
-     'late_mean_log_': late_mean_log_,
+     'early_mean': early_mean,
+     'early_mean_log__': early_mean_log__,
+     'late_mean': late_mean,
+     'late_mean_log__': late_mean_log__,
      'switchpoint': switchpoint}
 
 
@@ -202,8 +211,8 @@ early_mean.transformed, switchpoint.distribution
 
 
 
-    (early_mean_log_,
-     <pymc3.distributions.discrete.DiscreteUniform at 0x1188726d8>)
+    (early_mean_log__,
+     <pymc3.distributions.discrete.DiscreteUniform at 0x129f73b00>)
 
 
 
@@ -217,7 +226,7 @@ switchpoint.distribution.defaults
 
 
 
-    ['mode']
+    ('mode',)
 
 
 
@@ -236,8 +245,8 @@ ed.random(size=10)
 
 
 
-    array([ 1.18512233,  2.45533355,  0.04187961,  3.32967837,  0.0268889 ,
-            0.29723148,  1.30670324,  0.23335826,  0.56203427,  0.15627659])
+    array([ 0.82466332,  0.10209366,  3.35122292,  0.22771453,  1.35351198,
+            0.697511  ,  0.04523932,  0.36786232,  0.12309128,  0.90947997])
 
 
 
@@ -260,7 +269,7 @@ Most importantly, anything distribution-like must have a `logp` method. This is 
 
 
 ```python
-switchpoint.logp({'switchpoint':55, 'early_mean_log_':1, 'late_mean_log_':1})
+switchpoint.logp({'switchpoint':55, 'early_mean_log__':1, 'late_mean_log__':1})
 ```
 
 
@@ -277,12 +286,92 @@ Ok, enough talk, lets sample:
 
 ```python
 with coaldis1:
-    stepper=pm.Metropolis()
-    trace = pm.sample(40000, step=stepper)
+    #stepper=pm.Metropolis()
+    #trace = pm.sample(40000, step=stepper)
+    trace = pm.sample(40000)
 ```
 
 
-    100%|██████████| 40000/40000 [00:12<00:00, 3326.53it/s] | 229/40000 [00:00<00:17, 2289.39it/s]
+    Multiprocess sampling (2 chains in 2 jobs)
+    CompoundStep
+    >NUTS: [late_mean, early_mean]
+    >Metropolis: [switchpoint]
+    Sampling 2 chains: 100%|██████████| 81000/81000 [00:53<00:00, 1522.59draws/s]
+    The number of effective samples is smaller than 25% for some parameters.
+
+
+
+
+```python
+pm.summary(trace[4000::5])
+```
+
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>mc_error</th>
+      <th>hpd_2.5</th>
+      <th>hpd_97.5</th>
+      <th>n_eff</th>
+      <th>Rhat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>switchpoint</th>
+      <td>38.983542</td>
+      <td>2.421821</td>
+      <td>0.027554</td>
+      <td>33.000000</td>
+      <td>43.000000</td>
+      <td>7206.241420</td>
+      <td>0.999931</td>
+    </tr>
+    <tr>
+      <th>early_mean</th>
+      <td>3.070557</td>
+      <td>0.283927</td>
+      <td>0.002575</td>
+      <td>2.537039</td>
+      <td>3.641404</td>
+      <td>13267.970663</td>
+      <td>0.999966</td>
+    </tr>
+    <tr>
+      <th>late_mean</th>
+      <td>0.936715</td>
+      <td>0.118837</td>
+      <td>0.001056</td>
+      <td>0.709629</td>
+      <td>1.174810</td>
+      <td>13197.164982</td>
+      <td>1.000034</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 
 
 
@@ -293,8 +382,13 @@ pm.traceplot(t2);
 ```
 
 
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_base.py:3449: MatplotlibDeprecationWarning: 
+    The `ymin` argument was deprecated in Matplotlib 3.0 and will be removed in 3.2. Use `bottom` instead.
+      alternative='`bottom`', obj_type='argument')
 
-![png](switchpoint_files/switchpoint_28_0.png)
+
+
+![png](switchpoint_files/switchpoint_29_1.png)
 
 
 A forestplot gives us 95% credible intervals...
@@ -307,7 +401,7 @@ pm.forestplot(t2);
 
 
 
-![png](switchpoint_files/switchpoint_30_0.png)
+![png](switchpoint_files/switchpoint_31_0.png)
 
 
 
@@ -318,7 +412,7 @@ pm.autocorrplot(t2);
 
 
 
-![png](switchpoint_files/switchpoint_31_0.png)
+![png](switchpoint_files/switchpoint_32_0.png)
 
 
 
@@ -329,7 +423,65 @@ plt.hist(trace['switchpoint']);
 
 
 
-![png](switchpoint_files/switchpoint_32_0.png)
+![png](switchpoint_files/switchpoint_33_0.png)
+
+
+
+
+```python
+pm.trace_to_dataframe(t2).corr()
+```
+
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>switchpoint</th>
+      <th>early_mean</th>
+      <th>late_mean</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>switchpoint</th>
+      <td>1.000000</td>
+      <td>-0.257867</td>
+      <td>-0.235158</td>
+    </tr>
+    <tr>
+      <th>early_mean</th>
+      <td>-0.257867</td>
+      <td>1.000000</td>
+      <td>0.058679</td>
+    </tr>
+    <tr>
+      <th>late_mean</th>
+      <td>-0.235158</td>
+      <td>0.058679</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 
 
 ## Imputation
@@ -363,8 +515,8 @@ disasters_masked
 
 
     masked_array(data = [4 5 4 0 1 4 3 4 0 6 3 3 4 0 2 6 3 3 5 4 5 3 1 4 4 1 5 5 3 4 2 5 2 2 3 4 2
-     1 3 -- 2 1 1 1 1 3 0 0 1 0 1 1 1 0 1 0 1 0 0 0 2 1 0 0 0 1 1 0 2 3 3 1 --
-     2 1 1 1 1 2 4 2 0 0 1 4 0 0 0 1 0 0 0 0 0 1 0 0 1 0 1],
+     1 3 -- 2 1 1 1 1 3 0 0 1 0 1 1 0 0 3 1 0 3 2 2 0 1 1 1 0 1 0 1 0 0 0 2 1 0
+     0 0 1 1 0 2 3 3 1 -- 2 1 1 1 1 2 4 2 0 0 1 4 0 0 0 1 0 0 0 0 0 1 0 0 1 0 1],
                  mask = [False False False False False False False False False False False False
      False False False False False False False False False False False False
      False False False False False False False False False False False False
@@ -392,6 +544,20 @@ with pm.Model() as missing_data_model:
 ```
 
 
+
+
+```python
+pm.model_to_graphviz(missing_data_model)
+```
+
+
+
+
+
+![svg](switchpoint_files/switchpoint_39_0.svg)
+
+
+
 By supplying a masked array to the likelihood part of our model, we ensure that the masked data points show up in our traces:
 
 
@@ -399,11 +565,680 @@ By supplying a masked array to the likelihood part of our model, we ensure that 
 ```python
 with missing_data_model:
     stepper=pm.Metropolis()
-    trace_missing = pm.sample(10000, step=stepper)
+    trace_missing = pm.sample(40000, step=stepper)
 ```
 
 
-    100%|██████████| 10000/10000 [00:05<00:00, 1973.70it/s] | 39/10000 [00:00<00:25, 389.05it/s]
+    Multiprocess sampling (2 chains in 2 jobs)
+    CompoundStep
+    >Metropolis: [disasters_missing]
+    >Metropolis: [late_mean]
+    >Metropolis: [early_mean]
+    >Metropolis: [switchpoint]
+    Sampling 2 chains: 100%|██████████| 81000/81000 [00:40<00:00, 2008.25draws/s]
+    The number of effective samples is smaller than 10% for some parameters.
+
+
+
+
+```python
+tm2=trace_missing[4000::5]
+```
+
+
+
+
+```python
+pm.summary(tm2)
+```
+
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>mc_error</th>
+      <th>hpd_2.5</th>
+      <th>hpd_97.5</th>
+      <th>n_eff</th>
+      <th>Rhat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>switchpoint</th>
+      <td>38.721806</td>
+      <td>2.460939</td>
+      <td>0.043931</td>
+      <td>34.000000</td>
+      <td>43.000000</td>
+      <td>3701.337711</td>
+      <td>1.000138</td>
+    </tr>
+    <tr>
+      <th>disasters_missing__0</th>
+      <td>2.100694</td>
+      <td>1.790212</td>
+      <td>0.039944</td>
+      <td>0.000000</td>
+      <td>5.000000</td>
+      <td>2415.221405</td>
+      <td>0.999964</td>
+    </tr>
+    <tr>
+      <th>disasters_missing__1</th>
+      <td>0.907778</td>
+      <td>0.945733</td>
+      <td>0.010209</td>
+      <td>0.000000</td>
+      <td>3.000000</td>
+      <td>6751.376254</td>
+      <td>1.000121</td>
+    </tr>
+    <tr>
+      <th>early_mean</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>late_mean</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__0</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__1</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__2</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__3</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__4</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__5</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__6</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__7</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__8</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__9</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__10</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__11</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__12</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__13</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__14</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__15</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__16</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__17</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__18</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__19</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__20</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__21</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__22</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__23</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>rate__24</th>
+      <td>3.086498</td>
+      <td>0.288385</td>
+      <td>0.003494</td>
+      <td>2.547688</td>
+      <td>3.681163</td>
+      <td>6722.815884</td>
+      <td>0.999999</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>rate__81</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__82</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__83</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__84</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__85</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__86</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__87</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__88</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__89</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__90</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__91</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__92</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__93</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__94</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__95</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__96</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__97</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__98</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__99</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__100</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__101</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__102</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__103</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__104</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__105</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__106</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__107</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__108</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__109</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+    <tr>
+      <th>rate__110</th>
+      <td>0.931478</td>
+      <td>0.118384</td>
+      <td>0.001440</td>
+      <td>0.713553</td>
+      <td>1.177016</td>
+      <td>7011.001490</td>
+      <td>1.000466</td>
+    </tr>
+  </tbody>
+</table>
+<p>116 rows × 7 columns</p>
+</div>
+
 
 
 
@@ -416,47 +1251,29 @@ missing_data_model.vars
 
 
 
-    [switchpoint, early_mean_log_, late_mean_log_, disasters_missing]
+    [switchpoint, early_mean_log__, late_mean_log__, disasters_missing]
 
 
 
 
 
 ```python
-pm.summary(trace_missing, varnames=['disasters_missing'])
+pm.traceplot(tm2);
 ```
 
 
-    
-    disasters_missing:
-    
-      Mean             SD               MC Error         95% HPD interval
-      -------------------------------------------------------------------
-      
-      2.189            1.825            0.078            [0.000, 6.000]
-      0.950            0.980            0.028            [0.000, 3.000]
-    
-      Posterior quantiles:
-      2.5            25             50             75             97.5
-      |--------------|==============|==============|--------------|
-      
-      0.000          1.000          2.000          3.000          6.000
-      0.000          0.000          1.000          2.000          3.000
-    
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_base.py:3449: MatplotlibDeprecationWarning: 
+    The `ymin` argument was deprecated in Matplotlib 3.0 and will be removed in 3.2. Use `bottom` instead.
+      alternative='`bottom`', obj_type='argument')
 
 
 
-
-```python
-pm.traceplot(trace_missing);
-```
-
-
-
-![png](switchpoint_files/switchpoint_41_0.png)
+![png](switchpoint_files/switchpoint_45_1.png)
 
 
 ## Convergence of our model
+
+Going back to the original model...
 
 ### Histograms every m samples
 
@@ -478,12 +1295,13 @@ plt.tight_layout()
 ```
 
 
-    //anaconda/envs/py35/lib/python3.5/site-packages/statsmodels/nonparametric/kdetools.py:20: VisibleDeprecationWarning: using a non-integer number instead of an integer will result in an error in the future
-      y = X[:m/2+1] + np.r_[0,X[m/2+1:],0]*1j
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_axes.py:6499: MatplotlibDeprecationWarning: 
+    The 'normed' kwarg was deprecated in Matplotlib 2.1 and will be removed in 3.1. Use 'density' instead.
+      alternative="'density'", removal="3.1")
 
 
 
-![png](switchpoint_files/switchpoint_43_1.png)
+![png](switchpoint_files/switchpoint_47_1.png)
 
 
 ### Gewecke test
@@ -498,16 +1316,9 @@ $$\vert \mu_{\theta_1}  - \mu_{\theta_2}  \vert < 2 \sigma_{\theta_1 - \theta_2}
 
 ```python
 from pymc3 import geweke
-
-with coaldis1:
-    stepper=pm.Metropolis()
-    tr = pm.sample(2000, step=stepper)
     
-z = geweke(tr, intervals=15)
+z = geweke(t2, intervals=15)[0]
 ```
-
-
-    100%|██████████| 2000/2000 [00:00<00:00, 2981.24it/s]  | 293/2000 [00:00<00:00, 2929.39it/s]
 
 
 
@@ -520,81 +1331,81 @@ z
 
 
 
-    {'early_mean': array([[  0.00000000e+00,  -3.45828523e-01],
-            [  7.10000000e+01,   3.06745859e-02],
-            [  1.42000000e+02,   5.83423377e-02],
-            [  2.13000000e+02,   2.80206667e-02],
-            [  2.84000000e+02,   4.96120047e-02],
-            [  3.55000000e+02,   6.50698255e-02],
-            [  4.26000000e+02,   2.30049912e-02],
-            [  4.97000000e+02,   1.79919163e-01],
-            [  5.68000000e+02,   3.75965668e-01],
-            [  6.39000000e+02,   1.81797410e-01],
-            [  7.10000000e+02,   2.83525942e-01],
-            [  7.81000000e+02,   4.09588440e-01],
-            [  8.52000000e+02,   2.70244597e-01],
-            [  9.23000000e+02,  -7.98135362e-02],
-            [  9.94000000e+02,   1.49024502e-01]]),
-     'early_mean_log_': array([[  0.00000000e+00,  -3.18705037e-01],
-            [  7.10000000e+01,   4.52754131e-02],
-            [  1.42000000e+02,   7.11545274e-02],
-            [  2.13000000e+02,   4.85507355e-02],
-            [  2.84000000e+02,   7.22503145e-02],
-            [  3.55000000e+02,   8.10801025e-02],
-            [  4.26000000e+02,   3.81296823e-02],
-            [  4.97000000e+02,   1.76400242e-01],
-            [  5.68000000e+02,   3.67624113e-01],
-            [  6.39000000e+02,   1.68373217e-01],
-            [  7.10000000e+02,   2.76832177e-01],
-            [  7.81000000e+02,   4.17643732e-01],
-            [  8.52000000e+02,   2.86557817e-01],
-            [  9.23000000e+02,  -7.11311749e-02],
-            [  9.94000000e+02,   1.72001242e-01]]),
-     'late_mean': array([[  0.00000000e+00,  -1.16579493e-01],
-            [  7.10000000e+01,   1.28540152e-01],
-            [  1.42000000e+02,   1.00964967e-01],
-            [  2.13000000e+02,   1.33239334e-02],
-            [  2.84000000e+02,   7.02284698e-02],
-            [  3.55000000e+02,  -4.57493917e-02],
-            [  4.26000000e+02,  -9.54380528e-02],
-            [  4.97000000e+02,  -3.14319398e-02],
-            [  5.68000000e+02,  -1.77955790e-01],
-            [  6.39000000e+02,  -8.84537717e-02],
-            [  7.10000000e+02,   1.08046140e-01],
-            [  7.81000000e+02,   9.53818953e-02],
-            [  8.52000000e+02,   1.33300852e-01],
-            [  9.23000000e+02,  -9.46580647e-02],
-            [  9.94000000e+02,   2.67560286e-02]]),
-     'late_mean_log_': array([[  0.00000000e+00,  -1.29727449e-01],
-            [  7.10000000e+01,   1.26951597e-01],
-            [  1.42000000e+02,   9.48433048e-02],
-            [  2.13000000e+02,   2.16861379e-02],
-            [  2.84000000e+02,   8.52764829e-02],
-            [  3.55000000e+02,  -4.05677490e-02],
-            [  4.26000000e+02,  -9.47114742e-02],
-            [  4.97000000e+02,  -3.16317071e-02],
-            [  5.68000000e+02,  -1.82386642e-01],
-            [  6.39000000e+02,  -1.10557422e-01],
-            [  7.10000000e+02,   7.26461109e-02],
-            [  7.81000000e+02,   4.37389175e-02],
-            [  8.52000000e+02,   8.61589551e-02],
-            [  9.23000000e+02,  -1.20087640e-01],
-            [  9.94000000e+02,   1.93212914e-02]]),
-     'switchpoint': array([[  0.00000000e+00,   5.65003000e-01],
-            [  7.10000000e+01,  -1.00652530e-01],
-            [  1.42000000e+02,  -1.40480998e-01],
-            [  2.13000000e+02,  -1.79383754e-01],
-            [  2.84000000e+02,  -1.35196443e-01],
-            [  3.55000000e+02,  -1.75459073e-01],
-            [  4.26000000e+02,  -2.76323065e-01],
-            [  4.97000000e+02,  -2.76484051e-01],
-            [  5.68000000e+02,  -8.33856119e-03],
-            [  6.39000000e+02,  -9.93344544e-03],
-            [  7.10000000e+02,  -1.55557679e-01],
-            [  7.81000000e+02,  -1.58811057e-01],
-            [  8.52000000e+02,   1.53114727e-01],
-            [  9.23000000e+02,   3.43833969e-01],
-            [  9.94000000e+02,   2.05146360e-01]])}
+    {'early_mean': array([[  0.00000000e+00,   5.61498762e-02],
+            [  2.57000000e+02,   3.30181736e-02],
+            [  5.14000000e+02,  -1.13386479e-02],
+            [  7.71000000e+02,  -1.08683708e-02],
+            [  1.02800000e+03,  -3.18609424e-02],
+            [  1.28500000e+03,  -2.44007294e-02],
+            [  1.54200000e+03,  -9.42940333e-03],
+            [  1.79900000e+03,   1.38612211e-02],
+            [  2.05600000e+03,   2.44459326e-02],
+            [  2.31300000e+03,   1.76236156e-02],
+            [  2.57000000e+03,  -1.83317207e-02],
+            [  2.82700000e+03,  -2.08740078e-02],
+            [  3.08400000e+03,  -3.78760002e-02],
+            [  3.34100000e+03,  -2.33616055e-02],
+            [  3.59800000e+03,  -8.93753177e-02]]),
+     'early_mean_log__': array([[  0.00000000e+00,   5.40712421e-02],
+            [  2.57000000e+02,   3.20225634e-02],
+            [  5.14000000e+02,  -1.21207399e-02],
+            [  7.71000000e+02,  -1.53444650e-02],
+            [  1.02800000e+03,  -3.41697516e-02],
+            [  1.28500000e+03,  -2.60208461e-02],
+            [  1.54200000e+03,  -9.58032469e-03],
+            [  1.79900000e+03,   1.20771272e-02],
+            [  2.05600000e+03,   2.27472686e-02],
+            [  2.31300000e+03,   1.62502583e-02],
+            [  2.57000000e+03,  -1.83595794e-02],
+            [  2.82700000e+03,  -2.06877678e-02],
+            [  3.08400000e+03,  -3.68628168e-02],
+            [  3.34100000e+03,  -1.96692332e-02],
+            [  3.59800000e+03,  -9.00174724e-02]]),
+     'late_mean': array([[  0.00000000e+00,   4.08287159e-02],
+            [  2.57000000e+02,  -2.92363937e-02],
+            [  5.14000000e+02,  -5.38270045e-02],
+            [  7.71000000e+02,   5.63678903e-03],
+            [  1.02800000e+03,   1.34028136e-02],
+            [  1.28500000e+03,   6.38604399e-02],
+            [  1.54200000e+03,   4.89896588e-02],
+            [  1.79900000e+03,   6.99272457e-02],
+            [  2.05600000e+03,   3.55314031e-02],
+            [  2.31300000e+03,   9.88599384e-03],
+            [  2.57000000e+03,   1.72258915e-02],
+            [  2.82700000e+03,   4.12609613e-02],
+            [  3.08400000e+03,   2.16946625e-02],
+            [  3.34100000e+03,   3.15327875e-02],
+            [  3.59800000e+03,   1.50735157e-02]]),
+     'late_mean_log__': array([[  0.00000000e+00,   4.19113445e-02],
+            [  2.57000000e+02,  -2.82149481e-02],
+            [  5.14000000e+02,  -5.57252602e-02],
+            [  7.71000000e+02,   4.42927658e-04],
+            [  1.02800000e+03,   1.01563960e-02],
+            [  1.28500000e+03,   6.69668358e-02],
+            [  1.54200000e+03,   5.47312239e-02],
+            [  1.79900000e+03,   7.11500876e-02],
+            [  2.05600000e+03,   3.36857501e-02],
+            [  2.31300000e+03,   7.20640643e-03],
+            [  2.57000000e+03,   1.52483860e-02],
+            [  2.82700000e+03,   3.62744473e-02],
+            [  3.08400000e+03,   2.07380857e-02],
+            [  3.34100000e+03,   2.89119928e-02],
+            [  3.59800000e+03,   1.12619091e-02]]),
+     'switchpoint': array([[  0.00000000e+00,  -4.39653271e-02],
+            [  2.57000000e+02,  -2.69927320e-02],
+            [  5.14000000e+02,   2.04644938e-02],
+            [  7.71000000e+02,  -1.34952058e-02],
+            [  1.02800000e+03,   9.72819474e-05],
+            [  1.28500000e+03,  -2.60017648e-02],
+            [  1.54200000e+03,  -9.28102162e-02],
+            [  1.79900000e+03,  -9.90854028e-02],
+            [  2.05600000e+03,  -1.61978444e-02],
+            [  2.31300000e+03,  -1.96622006e-03],
+            [  2.57000000e+03,  -7.48155186e-02],
+            [  2.82700000e+03,  -4.25450296e-02],
+            [  3.08400000e+03,  -2.14223408e-04],
+            [  3.34100000e+03,  -2.63551341e-02],
+            [  3.59800000e+03,   5.57747320e-03]])}
 
 
 
@@ -603,21 +1414,44 @@ Here is a plot for `early_mean`. You sould really be plotting all of these...
 
 
 ```python
-plt.scatter(*z['early_mean'].T)
-plt.hlines([-1,1], 0, 1000, linestyles='dotted')
-plt.xlim(0, 1000)
+z['early_mean'].T
 ```
 
 
 
 
 
-    (0, 1000)
+    array([[  0.00000000e+00,   2.57000000e+02,   5.14000000e+02,
+              7.71000000e+02,   1.02800000e+03,   1.28500000e+03,
+              1.54200000e+03,   1.79900000e+03,   2.05600000e+03,
+              2.31300000e+03,   2.57000000e+03,   2.82700000e+03,
+              3.08400000e+03,   3.34100000e+03,   3.59800000e+03],
+           [  5.61498762e-02,   3.30181736e-02,  -1.13386479e-02,
+             -1.08683708e-02,  -3.18609424e-02,  -2.44007294e-02,
+             -9.42940333e-03,   1.38612211e-02,   2.44459326e-02,
+              1.76236156e-02,  -1.83317207e-02,  -2.08740078e-02,
+             -3.78760002e-02,  -2.33616055e-02,  -8.93753177e-02]])
 
 
 
 
-![png](switchpoint_files/switchpoint_48_1.png)
+
+```python
+plt.scatter(*z['early_mean'].T)
+plt.axhline(-1, 0, 1, linestyle='dotted')
+plt.axhline(1, 0, 1, linestyle='dotted')
+```
+
+
+
+
+
+    <matplotlib.lines.Line2D at 0x122770438>
+
+
+
+
+![png](switchpoint_files/switchpoint_53_1.png)
 
 
 ### Gelman-Rubin
@@ -626,7 +1460,7 @@ For this test, which calculates
 
 $$\hat{R} = \sqrt{\frac{\hat{Var}(\theta)}{w}}$$
 
-we need more than 1-chain. This is done through `njobs=4`. See the trace below:
+we need more than 1-chain. This is done through `njobs=4` (the defaukt is 2 and reported in `pm.summary`). See the trace below:
 
 
 
@@ -637,7 +1471,13 @@ with coaldis1:
 ```
 
 
-    100%|██████████| 40000/40000 [00:57<00:00, 696.92it/s]  | 1/40000 [00:00<1:26:12,  7.73it/s]
+    Multiprocess sampling (4 chains in 4 jobs)
+    CompoundStep
+    >Metropolis: [switchpoint]
+    >Metropolis: [late_mean]
+    >Metropolis: [early_mean]
+    Sampling 4 chains: 100%|██████████| 162000/162000 [00:57<00:00, 2837.84draws/s]
+    The number of effective samples is smaller than 10% for some parameters.
 
 
 
@@ -657,20 +1497,25 @@ tr2
 
 
 ```python
+tr2_cut = tr2[4000::5]
+```
+
+
+
+
+```python
 from pymc3 import gelman_rubin
 
-gelman_rubin(tr2)
+gelman_rubin(tr2_cut)
 ```
 
 
 
 
 
-    {'early_mean': 1.0001750040766744,
-     'early_mean_log_': 1.0001748609698453,
-     'late_mean': 1.0000180324001593,
-     'late_mean_log_': 1.0000162848026795,
-     'switchpoint': 1.0002439960829292}
+    {'early_mean': 1.0001442735491479,
+     'late_mean': 1.0000078726931823,
+     'switchpoint': 1.0002808010976048}
 
 
 
@@ -683,43 +1528,52 @@ A foresplot will show you the credible-interval consistency of our chains..
 ```python
 from pymc3 import forestplot
 
-forestplot(tr2)
+forestplot(tr2_cut)
 ```
 
 
 
 
 
-    <matplotlib.gridspec.GridSpec at 0x119d390b8>
+    GridSpec(1, 2, width_ratios=[3, 1])
 
 
 
 
-![png](switchpoint_files/switchpoint_55_1.png)
+![png](switchpoint_files/switchpoint_61_1.png)
 
 
 ### Autocorrelation
 
-This can be probed by plotting the correlation plot and effectibe sample size
+This can be probed by plotting the correlation plot and effective sample size
 
 
 
 ```python
 from pymc3 import effective_n
 
-effective_n(tr2)
+effective_n(tr2_cut)
 ```
 
 
 
 
 
-    {'early_mean': 16857.0,
-     'early_mean_log_': 12004.0,
-     'late_mean': 27344.0,
-     'late_mean_log_': 27195.0,
-     'switchpoint': 195.0}
+    {'early_mean': 13037.380191598249,
+     'late_mean': 15375.337202610448,
+     'switchpoint': 11955.470326961806}
 
+
+
+
+
+```python
+pm.autocorrplot(tr2_cut);
+```
+
+
+
+![png](switchpoint_files/switchpoint_64_0.png)
 
 
 
@@ -730,7 +1584,7 @@ pm.autocorrplot(tr2);
 
 
 
-![png](switchpoint_files/switchpoint_58_0.png)
+![png](switchpoint_files/switchpoint_65_0.png)
 
 
 ## Posterior predictive checks
@@ -745,32 +1599,26 @@ with coaldis1:
 ```
 
 
-    100%|██████████| 200/200 [00:01<00:00, 137.93it/s]    | 10/200 [00:00<00:02, 93.15it/s]
+    100%|██████████| 200/200 [00:02<00:00, 99.38it/s]
 
-
-This gives us 200 samples at each of the 111 diasters we have data on.
 
 
 
 ```python
-sim
+sim['disasters'].shape
 ```
 
 
 
 
 
-    {'disasters': array([[4, 3, 1, ..., 2, 0, 3],
-            [3, 2, 5, ..., 1, 4, 0],
-            [4, 2, 2, ..., 3, 3, 1],
-            ..., 
-            [1, 6, 2, ..., 0, 1, 0],
-            [3, 3, 0, ..., 2, 0, 0],
-            [0, 2, 5, ..., 0, 0, 2]])}
+    (200, 111)
 
 
 
-We plot the fiest 4 posteriors against actual data for consistency...
+This gives us 200 samples at each of the 111 diasters we have data on.
+
+We plot the first 4 posteriors against actual data for consistency...
 
 
 
@@ -779,7 +1627,7 @@ fig, axes = plt.subplots(1, 4, figsize=(12, 6))
 print(axes.shape)
 for obs, s, ax in zip(disasters_data, sim['disasters'].T, axes):
     print(obs)
-    ax.hist(s, bins=15)
+    ax.hist(s, bins=10)
     ax.plot(obs+0.5, 1, 'ro')
 ```
 
@@ -792,5 +1640,5 @@ for obs, s, ax in zip(disasters_data, sim['disasters'].T, axes):
 
 
 
-![png](switchpoint_files/switchpoint_64_1.png)
+![png](switchpoint_files/switchpoint_71_1.png)
 

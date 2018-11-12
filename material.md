@@ -168,3 +168,9 @@ Lecture 18: **HMC, and Formal tests**
 Lab10: **Jacobians and Tumors**
 
 [Material](lectures/lab10.html)
+
+---
+
+Lecture 19: **NUTS, Formal tests, and Hierarchicals**
+
+[Slides and Notes](lectures/lecture19.html)
