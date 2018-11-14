@@ -174,3 +174,7 @@ Lab10: **Jacobians and Tumors**
 Lecture 19: **NUTS, Formal tests, and Hierarchicals**
 
 [Slides and Notes](lectures/lecture19.html)
+
+Lecture 20: **Regression, GLMs, and model specification**
+
+[Slides and Notes](lectures/lecture20.html)

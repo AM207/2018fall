@@ -122,32 +122,154 @@ with schools1:
 
 
     Multiprocess sampling (2 chains in 2 jobs)
-    NUTS: [theta, tau_log__, mu]
-    100%|██████████| 5500/5500 [00:15<00:00, 365.39it/s]
-    There were 110 divergences after tuning. Increase `target_accept` or reparameterize.
-    The acceptance probability does not match the target. It is 0.690985903035, but should be close to 0.8. Try to increase the number of tuning steps.
-    There were 247 divergences after tuning. Increase `target_accept` or reparameterize.
-    The acceptance probability does not match the target. It is 0.63919125529, but should be close to 0.8. Try to increase the number of tuning steps.
+    NUTS: [theta, tau, mu]
+    Sampling 2 chains: 100%|██████████| 11000/11000 [00:21<00:00, 510.72draws/s]
+    There were 80 divergences after tuning. Increase `target_accept` or reparameterize.
+    There were 139 divergences after tuning. Increase `target_accept` or reparameterize.
     The number of effective samples is smaller than 10% for some parameters.
 
 
 
 
 ```python
-pm.diagnostics.gelman_rubin(trace1), pm.diagnostics.effective_n(trace1)
+pm.summary(trace1)
 ```
 
 
 
 
 
-    ({'mu': 1.000490513269084,
-      'tau': 1.0120369801383995,
-      'theta': array([ 1.00254569,  1.00092204,  0.99995591,  1.00055429,  0.99998707,
-              1.0000066 ,  1.00360206,  1.00073661])},
-     {'mu': 280.0,
-      'tau': 238.0,
-      'theta': array([ 444.,  479.,  661.,  526.,  875.,  691.,  340.,  514.])})
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>mc_error</th>
+      <th>hpd_2.5</th>
+      <th>hpd_97.5</th>
+      <th>n_eff</th>
+      <th>Rhat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mu</th>
+      <td>4.207586</td>
+      <td>3.387222</td>
+      <td>0.128527</td>
+      <td>-2.364228</td>
+      <td>10.815423</td>
+      <td>443.438897</td>
+      <td>1.003844</td>
+    </tr>
+    <tr>
+      <th>theta__0</th>
+      <td>6.212825</td>
+      <td>5.831719</td>
+      <td>0.159452</td>
+      <td>-4.128980</td>
+      <td>18.410220</td>
+      <td>977.723211</td>
+      <td>1.000012</td>
+    </tr>
+    <tr>
+      <th>theta__1</th>
+      <td>4.745148</td>
+      <td>4.785493</td>
+      <td>0.135035</td>
+      <td>-3.945520</td>
+      <td>14.722419</td>
+      <td>869.961535</td>
+      <td>1.001362</td>
+    </tr>
+    <tr>
+      <th>theta__2</th>
+      <td>3.688946</td>
+      <td>5.384133</td>
+      <td>0.135945</td>
+      <td>-6.881554</td>
+      <td>14.602095</td>
+      <td>1194.801444</td>
+      <td>1.002863</td>
+    </tr>
+    <tr>
+      <th>theta__3</th>
+      <td>4.599909</td>
+      <td>5.106523</td>
+      <td>0.142366</td>
+      <td>-5.636394</td>
+      <td>14.969515</td>
+      <td>866.237232</td>
+      <td>1.001245</td>
+    </tr>
+    <tr>
+      <th>theta__4</th>
+      <td>3.345345</td>
+      <td>4.826723</td>
+      <td>0.134081</td>
+      <td>-6.022840</td>
+      <td>12.653606</td>
+      <td>1026.652251</td>
+      <td>1.003787</td>
+    </tr>
+    <tr>
+      <th>theta__5</th>
+      <td>3.861150</td>
+      <td>4.892589</td>
+      <td>0.126074</td>
+      <td>-6.373854</td>
+      <td>13.138098</td>
+      <td>1186.571117</td>
+      <td>1.003271</td>
+    </tr>
+    <tr>
+      <th>theta__6</th>
+      <td>6.239858</td>
+      <td>5.293900</td>
+      <td>0.156773</td>
+      <td>-3.199409</td>
+      <td>17.364483</td>
+      <td>803.695943</td>
+      <td>1.000267</td>
+    </tr>
+    <tr>
+      <th>theta__7</th>
+      <td>4.747230</td>
+      <td>5.385314</td>
+      <td>0.132700</td>
+      <td>-5.646697</td>
+      <td>15.551957</td>
+      <td>1463.209855</td>
+      <td>1.000123</td>
+    </tr>
+    <tr>
+      <th>tau</th>
+      <td>3.884377</td>
+      <td>3.099556</td>
+      <td>0.118285</td>
+      <td>0.424971</td>
+      <td>10.005174</td>
+      <td>572.684459</td>
+      <td>1.003743</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 
 
@@ -160,8 +282,13 @@ pm.traceplot(trace1);
 ```
 
 
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_base.py:3449: MatplotlibDeprecationWarning: 
+    The `ymin` argument was deprecated in Matplotlib 3.0 and will be removed in 3.2. Use `bottom` instead.
+      alternative='`bottom`', obj_type='argument')
 
-![png](gelmanschools_files/gelmanschools_14_0.png)
+
+
+![png](gelmanschools_files/gelmanschools_14_1.png)
 
 
 Its hard to pick the thetas out but $\tau$ looks not so white-noisy. Lets zoom in:
@@ -173,16 +300,21 @@ pm.traceplot(trace1, varnames=['tau_log__'])
 ```
 
 
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_base.py:3449: MatplotlibDeprecationWarning: 
+    The `ymin` argument was deprecated in Matplotlib 3.0 and will be removed in 3.2. Use `bottom` instead.
+      alternative='`bottom`', obj_type='argument')
 
 
 
-    array([[<matplotlib.axes._subplots.AxesSubplot object at 0x116754400>,
-            <matplotlib.axes._subplots.AxesSubplot object at 0x1166ba8d0>]], dtype=object)
+
+
+    array([[<matplotlib.axes._subplots.AxesSubplot object at 0x119e794a8>,
+            <matplotlib.axes._subplots.AxesSubplot object at 0x119e9f978>]], dtype=object)
 
 
 
 
-![png](gelmanschools_files/gelmanschools_16_1.png)
+![png](gelmanschools_files/gelmanschools_16_2.png)
 
 
 There seems to be some stickiness at lower values in the trace. Zooming in even more helps us see this better:
@@ -199,7 +331,7 @@ plt.axvline(5000, color="r")
 
 
 
-    <matplotlib.lines.Line2D at 0x11636eef0>
+    <matplotlib.lines.Line2D at 0x119f09978>
 
 
 
@@ -228,7 +360,7 @@ plt.title('MCMC estimation of cumsum log(tau)')
 
 
 
-    <matplotlib.text.Text at 0x115c5a470>
+    Text(0.5, 1.0, 'MCMC estimation of cumsum log(tau)')
 
 
 
@@ -252,8 +384,8 @@ print('Percentage of Divergent %.5f' % divperc)
 ```
 
 
-    Number of Divergent 357
-    Percentage of Divergent 0.07140
+    Number of Divergent 219
+    Percentage of Divergent 0.04380
 
 
 What does divergent mean? These are situations in which our symplectic integrator has gone Kaput, as illustrated in this diagram below from Betancourt's review:
@@ -314,8 +446,8 @@ trace1.report._chain_warnings[0][0]
 
 
 
-    SamplerWarning(kind=<WarningType.DIVERGENCE: 1>, message='Energy change in leapfrog step is too large: 1624.79235214.', level='debug', step=353, exec_info=None, extra={'theta': array([ 5.45180751,  4.95166739,  3.82850001,  4.22962979,  4.36062314,
-            6.36974169,  4.72219313,  5.18415398]), 'tau_log__': array(-0.10357888919470949), 'mu': array(5.486739282359358)})
+    SamplerWarning(kind=<WarningType.DIVERGENCE: 1>, message='Energy change in leapfrog step is too large: 1458.41782758.', level='debug', step=2, exec_info=None, extra={'theta': array([ 4.87711111,  2.25999236,  2.34774179,  2.1574986 ,  3.79069814,
+            4.34545496,  3.76649258,  3.32757565]), 'tau_log__': array(-0.3984309958799402), 'mu': array(4.635052778361571)})
 
 
 
@@ -380,10 +512,234 @@ with schools2:
 
 
     Multiprocess sampling (2 chains in 2 jobs)
-    NUTS: [nu, tau_log__, mu]
-    100%|██████████| 5500/5500 [00:12<00:00, 445.95it/s]
-    There were 12 divergences after tuning. Increase `target_accept` or reparameterize.
-    There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
+    NUTS: [nu, tau, mu]
+    Sampling 2 chains: 100%|██████████| 11000/11000 [00:09<00:00, 1102.28draws/s]
+    There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+    There were 3 divergences after tuning. Increase `target_accept` or reparameterize.
+
+
+
+
+```python
+pm.summary(trace2)
+```
+
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>mc_error</th>
+      <th>hpd_2.5</th>
+      <th>hpd_97.5</th>
+      <th>n_eff</th>
+      <th>Rhat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mu</th>
+      <td>4.347176</td>
+      <td>3.286204</td>
+      <td>0.033158</td>
+      <td>-2.076250</td>
+      <td>10.809128</td>
+      <td>9280.625148</td>
+      <td>0.999958</td>
+    </tr>
+    <tr>
+      <th>nu__0</th>
+      <td>0.333415</td>
+      <td>0.998524</td>
+      <td>0.008853</td>
+      <td>-1.542916</td>
+      <td>2.345821</td>
+      <td>10770.381759</td>
+      <td>0.999930</td>
+    </tr>
+    <tr>
+      <th>nu__1</th>
+      <td>0.095830</td>
+      <td>0.925314</td>
+      <td>0.008496</td>
+      <td>-1.748745</td>
+      <td>1.913819</td>
+      <td>12623.663126</td>
+      <td>0.999962</td>
+    </tr>
+    <tr>
+      <th>nu__2</th>
+      <td>-0.090668</td>
+      <td>0.973473</td>
+      <td>0.010201</td>
+      <td>-2.003096</td>
+      <td>1.811096</td>
+      <td>11384.279142</td>
+      <td>0.999909</td>
+    </tr>
+    <tr>
+      <th>nu__3</th>
+      <td>0.071129</td>
+      <td>0.940188</td>
+      <td>0.007578</td>
+      <td>-1.732506</td>
+      <td>1.882510</td>
+      <td>12046.790749</td>
+      <td>0.999905</td>
+    </tr>
+    <tr>
+      <th>nu__4</th>
+      <td>-0.153937</td>
+      <td>0.951805</td>
+      <td>0.008784</td>
+      <td>-2.014699</td>
+      <td>1.727808</td>
+      <td>12065.548667</td>
+      <td>0.999984</td>
+    </tr>
+    <tr>
+      <th>nu__5</th>
+      <td>-0.070166</td>
+      <td>0.944777</td>
+      <td>0.009325</td>
+      <td>-1.890132</td>
+      <td>1.813137</td>
+      <td>10954.542775</td>
+      <td>0.999954</td>
+    </tr>
+    <tr>
+      <th>nu__6</th>
+      <td>0.358106</td>
+      <td>0.981190</td>
+      <td>0.011142</td>
+      <td>-1.515111</td>
+      <td>2.341151</td>
+      <td>9123.178041</td>
+      <td>1.000136</td>
+    </tr>
+    <tr>
+      <th>nu__7</th>
+      <td>0.065285</td>
+      <td>0.970545</td>
+      <td>0.008104</td>
+      <td>-1.823876</td>
+      <td>1.990456</td>
+      <td>13758.237973</td>
+      <td>0.999901</td>
+    </tr>
+    <tr>
+      <th>tau</th>
+      <td>3.552034</td>
+      <td>3.185068</td>
+      <td>0.036809</td>
+      <td>0.002162</td>
+      <td>9.845447</td>
+      <td>7236.920715</td>
+      <td>0.999933</td>
+    </tr>
+    <tr>
+      <th>theta__0</th>
+      <td>6.188267</td>
+      <td>5.563705</td>
+      <td>0.054012</td>
+      <td>-3.875958</td>
+      <td>18.548927</td>
+      <td>9263.543222</td>
+      <td>1.000048</td>
+    </tr>
+    <tr>
+      <th>theta__1</th>
+      <td>4.863323</td>
+      <td>4.650979</td>
+      <td>0.043388</td>
+      <td>-4.070784</td>
+      <td>14.487559</td>
+      <td>10923.364832</td>
+      <td>0.999942</td>
+    </tr>
+    <tr>
+      <th>theta__2</th>
+      <td>3.873658</td>
+      <td>5.244453</td>
+      <td>0.060124</td>
+      <td>-6.738831</td>
+      <td>14.406468</td>
+      <td>8794.224031</td>
+      <td>1.000048</td>
+    </tr>
+    <tr>
+      <th>theta__3</th>
+      <td>4.721012</td>
+      <td>4.754331</td>
+      <td>0.043573</td>
+      <td>-4.633450</td>
+      <td>14.515977</td>
+      <td>10975.024446</td>
+      <td>1.000119</td>
+    </tr>
+    <tr>
+      <th>theta__4</th>
+      <td>3.580124</td>
+      <td>4.644715</td>
+      <td>0.046571</td>
+      <td>-6.319482</td>
+      <td>12.434017</td>
+      <td>10236.673808</td>
+      <td>0.999948</td>
+    </tr>
+    <tr>
+      <th>theta__5</th>
+      <td>4.015354</td>
+      <td>4.769508</td>
+      <td>0.047606</td>
+      <td>-6.101058</td>
+      <td>13.014267</td>
+      <td>10498.887075</td>
+      <td>0.999901</td>
+    </tr>
+    <tr>
+      <th>theta__6</th>
+      <td>6.215937</td>
+      <td>5.086602</td>
+      <td>0.052506</td>
+      <td>-3.160603</td>
+      <td>17.322192</td>
+      <td>9862.673399</td>
+      <td>1.000478</td>
+    </tr>
+    <tr>
+      <th>theta__7</th>
+      <td>4.755671</td>
+      <td>5.289659</td>
+      <td>0.053902</td>
+      <td>-6.135223</td>
+      <td>15.392630</td>
+      <td>10221.686590</td>
+      <td>1.000014</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 
 
 
@@ -393,8 +749,13 @@ pm.traceplot(trace2);
 ```
 
 
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_base.py:3449: MatplotlibDeprecationWarning: 
+    The `ymin` argument was deprecated in Matplotlib 3.0 and will be removed in 3.2. Use `bottom` instead.
+      alternative='`bottom`', obj_type='argument')
 
-![png](gelmanschools_files/gelmanschools_33_0.png)
+
+
+![png](gelmanschools_files/gelmanschools_34_1.png)
 
 
 
@@ -404,16 +765,21 @@ pm.traceplot(trace2, varnames=['tau_log__'])
 ```
 
 
+    //anaconda/envs/py3l/lib/python3.6/site-packages/matplotlib/axes/_base.py:3449: MatplotlibDeprecationWarning: 
+    The `ymin` argument was deprecated in Matplotlib 3.0 and will be removed in 3.2. Use `bottom` instead.
+      alternative='`bottom`', obj_type='argument')
 
 
 
-    array([[<matplotlib.axes._subplots.AxesSubplot object at 0x116c14048>,
-            <matplotlib.axes._subplots.AxesSubplot object at 0x116c367b8>]], dtype=object)
+
+
+    array([[<matplotlib.axes._subplots.AxesSubplot object at 0x11b0064e0>,
+            <matplotlib.axes._subplots.AxesSubplot object at 0x11afb0400>]], dtype=object)
 
 
 
 
-![png](gelmanschools_files/gelmanschools_34_1.png)
+![png](gelmanschools_files/gelmanschools_35_2.png)
 
 
 Ok, so this seems to look better!
@@ -429,12 +795,12 @@ plt.axvline(5000, color="r")
 
 
 
-    <matplotlib.lines.Line2D at 0x115be06a0>
+    <matplotlib.lines.Line2D at 0x11af00dd8>
 
 
 
 
-![png](gelmanschools_files/gelmanschools_36_1.png)
+![png](gelmanschools_files/gelmanschools_37_1.png)
 
 
 And the effective number of iterations hs improved as well:
@@ -449,18 +815,18 @@ pm.diagnostics.gelman_rubin(trace2), pm.diagnostics.effective_n(trace2)
 
 
 
-    ({'mu': 1.0000108935357401,
-      'nu': array([ 0.99991086,  1.00007561,  0.99996423,  0.99991367,  1.00001948,
-              0.99993215,  0.99990613,  1.00015964]),
-      'tau': 0.99997109046913057,
-      'theta': array([ 0.99991096,  0.99996292,  0.99990009,  0.99990008,  0.99992957,
-              0.9999427 ,  0.99992104,  0.99992762])},
-     {'mu': 10000.0,
-      'nu': array([ 10000.,  10000.,  10000.,  10000.,  10000.,  10000.,  10000.,
-              10000.]),
-      'tau': 6549.0,
-      'theta': array([  8752.,  10000.,  10000.,  10000.,  10000.,  10000.,   9709.,
-               9566.])})
+    ({'mu': 0.99995806128958298,
+      'nu': array([ 0.99993023,  0.99996187,  0.99990919,  0.99990459,  0.99998409,
+              0.99995408,  1.00013553,  0.99990075]),
+      'tau': 0.99993259236404675,
+      'theta': array([ 1.00004779,  0.99994164,  1.00004808,  1.00011865,  0.99994786,
+              0.9999015 ,  1.00047802,  1.00001387])},
+     {'mu': 9280.6251483004617,
+      'nu': array([ 10770.38175948,  12623.66312606,  11384.27914234,  12046.79074917,
+              12065.54866653,  10954.54277482,   9123.17804143,  13758.23797319]),
+      'tau': 7236.9207149620033,
+      'theta': array([  9263.54322197,  10923.36483198,   8794.22403058,  10975.02444636,
+              10236.67380755,  10498.88707531,   9862.67339945,  10221.6865905 ])})
 
 
 
@@ -485,12 +851,12 @@ plt.title('MCMC estimation of cumsum log(tau)')
 
 
 
-    <matplotlib.text.Text at 0x115ab6668>
+    Text(0.5, 1.0, 'MCMC estimation of cumsum log(tau)')
 
 
 
 
-![png](gelmanschools_files/gelmanschools_40_1.png)
+![png](gelmanschools_files/gelmanschools_41_1.png)
 
 
 How about our divergences? They have decreased too.
@@ -505,8 +871,8 @@ print('Percentage of Divergent %.5f' % divperc)
 ```
 
 
-    Number of Divergent 14
-    Percentage of Divergent 0.00280
+    Number of Divergent 4
+    Percentage of Divergent 0.00080
 
 
 
@@ -526,7 +892,7 @@ plt.show()
 
 
 
-![png](gelmanschools_files/gelmanschools_43_0.png)
+![png](gelmanschools_files/gelmanschools_44_0.png)
 
 
 Look how much longer the funnel actually is. And we have explored this much better.
@@ -556,12 +922,12 @@ plt.legend()
 
 
 
-    <matplotlib.legend.Legend at 0x118379a90>
+    <matplotlib.legend.Legend at 0x116002860>
 
 
 
 
-![png](gelmanschools_files/gelmanschools_45_1.png)
+![png](gelmanschools_files/gelmanschools_46_1.png)
 
 
 It may not be possible in all models to achieve this sort of decoupling. In that case, Riemannian HMC, where we generalize the mass matrix to depend upon position, explicitly tackling high-curvature, can help.
