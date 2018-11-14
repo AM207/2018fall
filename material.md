@@ -171,6 +171,8 @@ Lab10: **Jacobians and Tumors**
 
 ---
 
+### Week11
+
 Lecture 19: **NUTS, Formal tests, and Hierarchicals**
 
 [Slides and Notes](lectures/lecture19.html)
