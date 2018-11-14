@@ -7,7 +7,7 @@ noline: 1
 
 ## Slides
 
-- [PDF](../slides/lecture20)
+- [PDF](../slides/lecture20.pdf)
 
 ## Notes
 
