@@ -180,3 +180,7 @@ Lecture 19: **NUTS, Formal tests, and Hierarchicals**
 Lecture 20: **Regression, GLMs, and model specification**
 
 [Slides and Notes](lectures/lecture20.html)
+
+Lab11: **Gelman Schools Hierarchical and Prosocial Chimps GLM**
+
+[Material](lectures/lab11.html)
