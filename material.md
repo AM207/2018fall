@@ -184,3 +184,11 @@ Lecture 20: **Regression, GLMs, and model specification**
 Lab11: **Gelman Schools Hierarchical and Prosocial Chimps GLM**
 
 [Material](lectures/lab11.html)
+
+---
+
+### Week 12
+
+Lecture 21: **From Hierarchical GLMs to Gaussian Processes**
+
+[Slides and Notes](lectures/lecture21.html)
