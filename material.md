@@ -192,3 +192,11 @@ Lab11: **Gelman Schools Hierarchical and Prosocial Chimps GLM**
 Lecture 21: **From Hierarchical GLMs to Gaussian Processes**
 
 [Slides and Notes](lectures/lecture21.html)
+
+---
+
+### Week 13
+
+Lecture 22: **Decisions and Model Comparison**
+
+[Slides and Notes](lectures/lecture22.html)
