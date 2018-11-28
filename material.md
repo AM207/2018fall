@@ -200,3 +200,7 @@ Lecture 21: **From Hierarchical GLMs to Gaussian Processes**
 Lecture 22: **Decisions and Model Comparison**
 
 [Slides and Notes](lectures/lecture22.html)
+
+Lecture 23: **Cross-Validation, Priors, and Workflow**
+
+[Slides and Notes](lectures/lecture23.html)

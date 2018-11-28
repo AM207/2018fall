@@ -37,3 +37,4 @@ layout: "default"
 - [Lab 11](lab11.html): Gelman Schools Hierarchical and Prosocial Chimps GLM
 - [Lecture 21](lecture21.html): From Hierarchical GLMs to Gaussian Processes
 - [Lecture 22](lecture22.html): Decisions and Model Comparison
+- [Lecture 23](lecture23.html): Cross-Validation, Priors, and Workflow
