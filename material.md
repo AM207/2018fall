@@ -204,3 +204,7 @@ Lecture 22: **Decisions and Model Comparison**
 Lecture 23: **Cross-Validation, Priors, and Workflow**
 
 [Slides and Notes](lectures/lecture23.html)
+
+Lab12: **GLM and Workflow**
+
+[Material](lectures/lab12.html)

@@ -38,3 +38,4 @@ layout: "default"
 - [Lecture 21](lecture21.html): From Hierarchical GLMs to Gaussian Processes
 - [Lecture 22](lecture22.html): Decisions and Model Comparison
 - [Lecture 23](lecture23.html): Cross-Validation, Priors, and Workflow
+- [Lab 12](lab12.html): GLM and Workflow
