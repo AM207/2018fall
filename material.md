@@ -208,3 +208,9 @@ Lecture 23: **Cross-Validation, Priors, and Workflow**
 Lab12: **GLM and Workflow**
 
 [Material](lectures/lab12.html)
+
+---
+
+Lecture 24: **Variational Inference**
+
+[Slides and Notes](lectures/lecture24.html)

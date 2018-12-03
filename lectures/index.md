@@ -39,3 +39,4 @@ layout: "default"
 - [Lecture 22](lecture22.html): Decisions and Model Comparison
 - [Lecture 23](lecture23.html): Cross-Validation, Priors, and Workflow
 - [Lab 12](lab12.html): GLM and Workflow
+- [Lecture 24](lecture24.html): Variational Inference
