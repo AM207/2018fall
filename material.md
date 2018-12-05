@@ -214,3 +214,7 @@ Lab12: **GLM and Workflow**
 Lecture 24: **Variational Inference**
 
 [Slides and Notes](lectures/lecture24.html)
+
+Lecture 25: **Variational inference and Mixtures**
+
+[Slides and Notes](lectures/lecture25.html)
