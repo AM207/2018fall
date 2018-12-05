@@ -1,9 +1,10 @@
 ---
-title: 
+title: Variational Autoencoder
 shorttitle: torchvae
 notebook: torchvae.ipynb
 noline: 1
 summary: ""
+keywords: ['variational inference', 'elbo', 'kl-divergence', 'normal distribution', 'mean-field approximation', 'latent variables', 'optimization', 'variational autoencoder']
 layout: wiki
 ---
 {% assign links = site.data.wikilinks %}
@@ -12,6 +13,8 @@ layout: wiki
 {:.no_toc}
 *  
 {: toc}
+
+
 
 
 ```python
@@ -449,7 +452,7 @@ Image("results/reconstruction_3.png")
 
 
 
-![png](torchvae_files/torchvae_11_0.png)
+![png](torchvae_files/torchvae_12_0.png)
 
 
 
@@ -463,6 +466,6 @@ Image("results/reconstruction_9.png")
 
 
 
-![png](torchvae_files/torchvae_12_0.png)
+![png](torchvae_files/torchvae_13_0.png)
 
 
