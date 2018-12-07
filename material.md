@@ -218,3 +218,7 @@ Lecture 24: **Variational Inference**
 Lecture 25: **Variational inference and Mixtures**
 
 [Slides and Notes](lectures/lecture25.html)
+
+Lecture 26: **Wrapup**
+
+[Slides and Notes](lectures/lecture26.html)
