@@ -1,4 +1,4 @@
-baseurl:
+baseurl: https://am207.github.io/2018fall
 markdown: kramdown
 kramdown:
     math_engine: mathjax
