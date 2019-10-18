@@ -18,6 +18,8 @@ noline: 1
 
 ## Readings
 
+All 3 are great!
+
 - Notes on Probability and Statistics from [Shalizi](http://bactra.org/prob-notes/srl.pdf)
 - Skim and keep for reference: the first 3 chapters of [Wasserman's All of Statistics](http://www.stat.cmu.edu/~larry/all-of-statistics/)
 - First Chapter of [Model Based Machine Learning](http://www.mbmlbook.com/MurderMystery.html)
